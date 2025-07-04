@@ -1,0 +1,208 @@
+# 应用配置
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 200
+    max-connections: 8192
+
+# Spring配置
+spring:
+  application:
+    name: {{ config.name }}
+  profiles:
+    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+{% if config.tech_stack.orm == 'jpa' %}
+  jpa:
+    database-platform: org.hibernate.dialect.{{ config.tech_stack.database | capitalize }}Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+{% endif %}
+{% if config.tech_stack.database == 'mysql' %}
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/{{ config.name | snake_case }}?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: HikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+{% elif config.tech_stack.database == 'postgresql' %}
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/{{ config.name | snake_case }}
+    username: postgres
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: HikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+{% endif %}
+{% if 'redis' in config.tech_stack.cache %}
+  redis:
+    host: localhost
+    port: 6379
+    password: 
+    database: 0
+    timeout: 10000
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+{% endif %}
+{% if 'rabbitmq' in config.tech_stack.mq %}
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+        concurrency: 1
+        max-concurrency: 5
+{% endif %}
+{% if 'kafka' in config.tech_stack.mq %}
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      retries: 3
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: {{ config.name | snake_case }}-group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      auto-commit-interval: 1000
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+{% endif %}
+{% if 'mongodb' in config.tech_stack.nosql %}
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/{{ config.name | snake_case }}
+{% endif %}
+{% if 'elasticsearch' in config.tech_stack.nosql %}
+  elasticsearch:
+    rest:
+      uris: http://localhost:9200
+{% endif %}
+
+# MyBatis配置
+{% if config.tech_stack.orm == 'mybatis' %}
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: {{ config.package }}.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+{% endif %}
+
+# 日志配置
+logging:
+  level:
+    root: info
+    {{ config.package }}: debug
+  file:
+    name: logs/{{ config.name }}.log
+
+# Swagger配置
+{% if 'swagger' in config.tech_stack.docs %}
+swagger:
+  enabled: true
+  title: {{ config.name }} API文档
+  description: {{ config.description }}
+  version: {{ config.version }}
+  contact:
+    name: {{ config.name }}
+    email: admin@example.com
+    url: https://example.com
+  base-package: {{ config.package }}.controller
+{% endif %}
+
+# Actuator配置
+{% if 'actuator' in config.tech_stack.monitor %}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+{% endif %}
+
+# 自定义配置
+{{ config.name | snake_case }}:
+  version: {{ config.version }}
+  description: {{ config.description }}
+  # 上传文件配置
+  upload:
+    base-dir: ./uploads
+    allowed-types: jpg,jpeg,png,gif,doc,docx,xls,xlsx,pdf,zip,rar
+    max-size: 10485760
+  # 线程池配置
+  thread-pool:
+    core-size: 10
+    max-size: 20
+    queue-capacity: 200
+    keep-alive-seconds: 60
+  # 安全配置
+  security:
+    # 忽略鉴权的URL
+    ignore-urls:
+      - /
+      - /login
+      - /logout
+      - /register
+      - /captcha
+      - /actuator/**
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /v2/api-docs
+      - /webjars/**
+      - /druid/**
+      - /favicon.ico
+    # JWT配置
+    jwt:
+      secret: {{ config.name | snake_case }}_jwt_secret_key
+      expiration: 86400000
+      header: Authorization
+      token-prefix: Bearer

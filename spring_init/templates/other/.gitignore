@@ -1,0 +1,262 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+logs/
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Spring Boot
+*.pid
+*.pid.lock
+*.pid.shutdown
+
+# Application specific
+uploads/
+temp/
+*.tmp
+*.temp
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Configuration files with sensitive data
+application-local.yml
+application-local.properties
+*.env
+.env
+
+# Docker
+.dockerignore
+
+# Node.js (if using frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage reports
+/coverage/
+*.lcov
+
+# Test results
+/test-results/
+/junit/
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Cache directories
+.cache/
+.npm/
+.yarn/
+
+# OS generated files
+.DS_Store?
+ehthumbs_vista.db
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# STS (Spring Tool Suite)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# Code coverage
+.nyc_output
+coverage
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.test
+.env.production
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# Ignore application logs
+logs/
+*.log
+
+# Ignore uploaded files
+uploads/
+static/uploads/
+
+# Ignore temporary files
+*.tmp
+*.temp
+temp/
+
+# Ignore IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore OS specific files
+.DS_Store
+Thumbs.db
+
+# Ignore build artifacts
+target/
+build/
+dist/
+out/
+
+# Ignore dependency directories
+node_modules/
+
+# Ignore configuration files with sensitive information
+application-local.yml
+application-local.properties
+*.env
+.env*
+
+# Ignore database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Ignore cache files
+.cache/
+*.cache
+
+# Ignore backup files
+*.bak
+*.backup
+*.orig
+
+# Ignore test coverage reports
+coverage/
+*.lcov
+
+# Ignore documentation build
+docs/_build/
+
+# Ignore package files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Ignore Spring Boot specific
+*.pid
+*.pid.lock
+*.pid.shutdown
+
+# Ignore Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# Ignore Gradle wrapper
+!gradle/wrapper/gradle-wrapper.jar
