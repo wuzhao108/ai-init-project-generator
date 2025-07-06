@@ -29,6 +29,7 @@ ai-init-project-generator/
 ├── requirements.txt           # Python 依赖
 ├── setup.py                  # 安装配置
 ├── README.md                 # 项目说明
+├── .gitignore                # Git忽略文件配置
 ├── templates/                # 项目模板文件（Markdown格式）
 │   ├── demo-template.md      # 演示模板
 │   ├── spring-boot-basic.md  # 基础Spring Boot模板
@@ -46,6 +47,7 @@ ai-init-project-generator/
 │   │   ├── history/         # 历史配置（Markdown格式）
 │   │   │   └── *.md        # 项目历史配置
 │   │   ├── backup/          # 备份目录
+│   │   ├── templates/       # 模板配置目录
 │   │   ├── config_manager_v2.py # 配置管理器V2
 │   │   ├── config_cli.py    # 配置管理CLI工具
 │   │   ├── config_migrator.py # 配置迁移工具
@@ -74,11 +76,24 @@ ai-init-project-generator/
 │   ├── API_REFERENCE.md    # API参考文档
 │   ├── TROUBLESHOOTING.md  # 故障排除指南
 │   └── INDEX.md            # 文档索引
+├── logs/                    # 项目变更日志
+│   ├── 01-配置显示功能修复-20250706.md
+│   ├── 02-配置流程优化改进-20250706.md
+│   ├── 03-配置名称验证修复-20250706.md
+│   ├── 04-目录重组变更-20250706.md
+│   ├── 05-主菜单简化改进-20250706.md
+│   ├── 06-模板系统迁移-20250706.md
+│   └── 07-项目重构总结-20250706.md
 ├── output/                  # 生成的项目输出目录
 └── tests/                   # 测试文件
     ├── __init__.py
     ├── test_directory_reorganization.py # 目录重组测试
-    └── test_*.py           # 其他测试文件
+    ├── test_menu_simplification.py # 菜单简化测试
+    ├── test_config_display_fix.py # 配置显示修复测试
+    ├── test_config_flow_optimization.py # 配置流程优化测试
+    ├── test_config_name_validation_fix.py # 配置名称验证修复测试
+    ├── test_project_functionality.py # 项目功能测试
+    └── temp/                # 临时测试文件目录
 ```
 
 ## 🚀 快速开始
@@ -147,6 +162,12 @@ python main.py
 - **Docker集成** - 自动生成Docker配置文件
 - **测试支持** - 生成完整的测试框架和示例代码
 
+### 5. 📝 项目变更日志管理
+- **规范化日志** - 统一的变更日志格式和命名规范
+- **详细记录** - 包含变更原因、内容、影响和解决方案的完整记录
+- **时间追溯** - 按时间顺序记录所有项目变更历史
+- **中文文档** - 使用中文编写，便于理解和维护
+
 ### 基本使用
 
 #### 1. 交互式创建项目
@@ -214,6 +235,7 @@ python scripts/configs_main/config_cli.py history cleanup --days 30
 - **[📑 文档索引](docs/INDEX.md)** - 文档导航和搜索指南
 - **[⚙️ 配置管理系统](scripts/configs_main/README.md)** - 配置管理系统V2详细说明
 - **[🔨 脚本工具](scripts/README.md)** - 测试和调试脚本说明
+- **[📝 项目变更日志](logs/)** - 详细的项目变更历史记录和技术文档
 
 ### 命令行选项
 
@@ -349,6 +371,14 @@ my-spring-project/
 ```
 
 ## 📈 项目历史版本
+
+### v2.1.0 (2025-07-06) - 日志管理系统规范化
+- 📝 **日志管理**: 新增logs目录，统一管理项目变更日志
+- 🔄 **格式规范**: 采用"序号-变更内容-时间"的标准化命名格式
+- 📋 **详细记录**: 每个变更包含原因、内容、影响和解决方案的完整记录
+- 🕒 **时间统一**: 所有日志文件时间统一为2025年07月06日
+- 🧪 **测试完善**: 新增多个功能测试脚本，提升测试覆盖率
+- 📚 **文档更新**: 更新README.md以反映最新的项目结构
 
 ### v2.0.0 (2025-01-06) - 配置管理系统重构
 - ✨ **重大更新**: 配置管理系统V2
