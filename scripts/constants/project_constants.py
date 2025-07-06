@@ -152,6 +152,9 @@ class ProjectConstants:
     CONFIG_PREVIEW_MODE = "preview_mode"
     CONFIG_CREATED_AT = "created_at"
     CONFIG_UPDATED_AT = "updated_at"
+    CONFIG_GENERATE_SAMPLE_CODE = "generate_sample_code"
+    CONFIG_GENERATE_TESTS = "generate_tests"
+    CONFIG_GENERATE_DOCKER = "generate_docker"
     
     # 技术栈配置键名
     TECH_DATABASE = "database"
@@ -164,6 +167,9 @@ class ProjectConstants:
     TECH_MONITOR = "monitor"
     TECH_WEB_FRAMEWORK = "web_framework"
     TECH_TEST_FRAMEWORKS = "test_frameworks"
+    TECH_MONGODB = "mongodb"
+    TECH_ELASTICSEARCH = "elasticsearch"
+    TECH_ACTUATOR = "actuator"
     
     # 环境配置
     ENV_DEV = "dev"

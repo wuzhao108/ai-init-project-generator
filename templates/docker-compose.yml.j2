@@ -1,0 +1,138 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: {{ config.name }}
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      {% if config.tech_stack.database == 'mysql' %}
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/{{ config.name.replace('-', '_') }}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      {% elif config.tech_stack.database == 'postgresql' %}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/{{ config.name.replace('-', '_') }}
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      {% endif %}
+    depends_on:
+      {% if config.tech_stack.database == 'mysql' %}
+      - mysql
+      {% elif config.tech_stack.database == 'postgresql' %}
+      - postgres
+      {% endif %}
+      {% if 'redis' in config.tech_stack.cache %}
+      - redis
+      {% endif %}
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - {{ config.name.replace('-', '_') }}_network
+    restart: unless-stopped
+
+{% if config.tech_stack.database == 'mysql' %}
+  mysql:
+    image: mysql:8.0
+    container_name: {{ config.name }}-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE={{ config.name.replace('-', '_') }}
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - {{ config.name.replace('-', '_') }}_network
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+{% elif config.tech_stack.database == 'postgresql' %}
+  postgres:
+    image: postgres:15
+    container_name: {{ config.name }}-postgres
+    environment:
+      - POSTGRES_DB={{ config.name.replace('-', '_') }}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - {{ config.name.replace('-', '_') }}_network
+    restart: unless-stopped
+{% endif %}
+
+{% if 'redis' in config.tech_stack.cache %}
+  redis:
+    image: redis:7-alpine
+    container_name: {{ config.name }}-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - {{ config.name.replace('-', '_') }}_network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+{% endif %}
+
+{% if 'elasticsearch' in config.tech_stack.nosql %}
+  elasticsearch:
+    image: elasticsearch:8.8.0
+    container_name: {{ config.name }}-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - {{ config.name.replace('-', '_') }}_network
+    restart: unless-stopped
+{% endif %}
+
+{% if 'mongodb' in config.tech_stack.nosql %}
+  mongodb:
+    image: mongo:6.0
+    container_name: {{ config.name }}-mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE={{ config.name.replace('-', '_') }}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - {{ config.name.replace('-', '_') }}_network
+    restart: unless-stopped
+{% endif %}
+
+volumes:
+  {% if config.tech_stack.database == 'mysql' %}
+  mysql_data:
+  {% elif config.tech_stack.database == 'postgresql' %}
+  postgres_data:
+  {% endif %}
+  {% if 'redis' in config.tech_stack.cache %}
+  redis_data:
+  {% endif %}
+  {% if 'elasticsearch' in config.tech_stack.nosql %}
+  elasticsearch_data:
+  {% endif %}
+  {% if 'mongodb' in config.tech_stack.nosql %}
+  mongodb_data:
+  {% endif %}
+
+networks:
+  {{ config.name.replace('-', '_') }}_network:
+    driver: bridge

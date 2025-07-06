@@ -195,11 +195,15 @@ class ConfigManager:
                 ProjectConstants.TECH_SECURITY: [],
                 ProjectConstants.TECH_MONITOR: [ProjectConstants.MONITOR_ACTUATOR],
                 ProjectConstants.TECH_WEB_FRAMEWORK: ProjectConstants.DEFAULT_WEB_FRAMEWORK,
-                ProjectConstants.TECH_TEST_FRAMEWORKS: ProjectConstants.DEFAULT_TEST_FRAMEWORKS
+                ProjectConstants.TECH_TEST_FRAMEWORKS: ProjectConstants.DEFAULT_TEST_FRAMEWORKS,
+                ProjectConstants.TECH_ACTUATOR: True
             },
             ProjectConstants.CONFIG_MODULES: [],
             ProjectConstants.CONFIG_OUTPUT_DIR: "./output",
-            ProjectConstants.CONFIG_PREVIEW_MODE: False
+            ProjectConstants.CONFIG_PREVIEW_MODE: False,
+            ProjectConstants.CONFIG_GENERATE_SAMPLE_CODE: True,
+            ProjectConstants.CONFIG_GENERATE_TESTS: True,
+            ProjectConstants.CONFIG_GENERATE_DOCKER: False
         }
     
     def merge_configs(self, base_config: Dict[str, Any], override_config: Dict[str, Any]) -> Dict[str, Any]:

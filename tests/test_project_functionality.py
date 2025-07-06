@@ -41,14 +41,11 @@ def test_imports():
         from configs.config_migrator import ConfigMigrator
         print("✓ ConfigMigrator 导入成功")
         
-        # 测试spring_init模块导入
-        from spring_init.cli import cli
-        print("✓ CLI模块 导入成功")
-        
-        from spring_init.generator import ProjectGenerator
+        # 测试scripts.core模块导入
+        from scripts.core.project_generator import ProjectGenerator
         print("✓ ProjectGenerator 导入成功")
         
-        from spring_init.interactive import InteractiveConfig
+        from scripts.core.interactive_config import InteractiveConfig
         print("✓ InteractiveConfig 导入成功")
         
         print("\n所有模块导入测试通过！")

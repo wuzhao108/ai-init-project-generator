@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project.mapper.UserMapper">
+
+    <!-- Result Map -->
+    <resultMap id="UserResultMap" type="com.example.project.entity.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+    </resultMap>
+
+    <!-- Insert User -->
+    <insert id="insert" parameterType="com.example.project.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, email, password)
+        VALUES (#{username}, #{email}, #{password})
+    </insert>
+
+    <!-- Update User -->
+    <update id="update" parameterType="com.example.project.entity.User">
+        UPDATE users
+        SET username = #{username},
+            email = #{email},
+            password = #{password}
+        WHERE id = #{id}
+    </update>
+
+    <!-- Delete User -->
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
+    <!-- Select User by ID -->
+    <select id="findById" parameterType="long" resultMap="UserResultMap">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+
+    <!-- Select User by Username -->
+    <select id="findByUsername" parameterType="string" resultMap="UserResultMap">
+        SELECT * FROM users WHERE username = #{username}
+    </select>
+
+    <!-- Select User by Email -->
+    <select id="findByEmail" parameterType="string" resultMap="UserResultMap">
+        SELECT * FROM users WHERE email = #{email}
+    </select>
+
+    <!-- Select All Users -->
+    <select id="findAll" resultMap="UserResultMap">
+        SELECT * FROM users ORDER BY id
+    </select>
+
+    <!-- Count by Username -->
+    <select id="countByUsername" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM users WHERE username = #{username}
+    </select>
+
+    <!-- Count by Email -->
+    <select id="countByEmail" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM users WHERE email = #{email}
+    </select>
+
+</mapper>

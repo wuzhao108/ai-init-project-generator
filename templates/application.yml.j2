@@ -1,0 +1,90 @@
+# {{ config.name }} Application Configuration
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: {{ config.name }}
+  
+  profiles:
+    active: dev
+
+{% set tech_stack = config.tech_stack %}
+{% if tech_stack.database != 'none' %}
+  # Database Configuration
+  datasource:
+    {% if tech_stack.database == 'mysql' %}
+    url: jdbc:mysql://localhost:3306/{{ config.name.replace('-', '_') }}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    {% elif tech_stack.database == 'postgresql' %}
+    url: jdbc:postgresql://localhost:5432/{{ config.name.replace('-', '_') }}
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+    {% elif tech_stack.database == 'h2' %}
+    url: jdbc:h2:mem:{{ config.name.replace('-', '_') }};DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+    {% endif %}
+    
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  {% if tech_stack.orm == 'jpa' %}
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: {% if tech_stack.database == 'mysql' %}org.hibernate.dialect.MySQL8Dialect{% elif tech_stack.database == 'postgresql' %}org.hibernate.dialect.PostgreSQLDialect{% elif tech_stack.database == 'h2' %}org.hibernate.dialect.H2Dialect{% endif %}
+        format_sql: true
+  {% elif tech_stack.orm == 'mybatis' %}
+  # MyBatis Configuration
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: {{ config.package }}.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  {% endif %}
+{% endif %}
+
+{% if tech_stack.actuator %}
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+{% endif %}
+
+# Logging Configuration
+logging:
+  level:
+    {{ config.package }}: DEBUG
+    org.springframework: INFO
+    {% if tech_stack.orm == 'mybatis' %}
+    {{ config.package }}.mapper: DEBUG
+    {% endif %}
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/{{ config.name }}.log
+    max-size: 10MB
+    max-history: 30

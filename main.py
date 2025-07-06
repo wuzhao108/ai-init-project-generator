@@ -23,8 +23,8 @@ project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
 try:
-    from spring_init.interactive import InteractiveConfig
-    from spring_init.generator import ProjectGenerator
+    from scripts.core.interactive_config import InteractiveConfig
+    from scripts.core.project_generator import ProjectGenerator
     from scripts.core.config_manager import ConfigManager
 except ImportError as e:
     print(f"导入错误: {e}")
@@ -161,7 +161,6 @@ def create_from_default_template():
             output_dir = "./output"
             
             # 创建ProjectConfig对象
-            from spring_init.interactive import InteractiveConfig
             interactive = InteractiveConfig()
             config = interactive._dict_to_config(default_config)
             

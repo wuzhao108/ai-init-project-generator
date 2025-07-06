@@ -23,9 +23,19 @@ def validate_project_name(name: str) -> bool:
     if not name:
         return False
     
+    if len(name) < 2 or len(name) > 50:
+        return False
+    
     # 项目名称应该是小写字母、数字和连字符的组合
     pattern = r'^[a-z][a-z0-9-]*[a-z0-9]$'
-    return bool(re.match(pattern, name)) and len(name) >= 2
+    if not re.match(pattern, name):
+        return False
+    
+    # 不能包含连续的连字符
+    if '--' in name:
+        return False
+    
+    return True
 
 
 def validate_package_name(package: str) -> bool:
@@ -42,7 +52,27 @@ def validate_package_name(package: str) -> bool:
     
     # Java包名格式：小写字母和数字，用点分隔
     pattern = r'^[a-z][a-z0-9]*(?:\.[a-z][a-z0-9]*)*$'
-    return bool(re.match(pattern, package))
+    if not re.match(pattern, package):
+        return False
+    
+    # 检查Java关键字
+    java_keywords = {
+        'abstract', 'assert', 'boolean', 'break', 'byte', 'case', 'catch',
+        'char', 'class', 'const', 'continue', 'default', 'do', 'double',
+        'else', 'enum', 'extends', 'final', 'finally', 'float', 'for',
+        'goto', 'if', 'implements', 'import', 'instanceof', 'int',
+        'interface', 'long', 'native', 'new', 'package', 'private',
+        'protected', 'public', 'return', 'short', 'static', 'strictfp',
+        'super', 'switch', 'synchronized', 'this', 'throw', 'throws',
+        'transient', 'try', 'void', 'volatile', 'while'
+    }
+    
+    parts = package.split('.')
+    for part in parts:
+        if part in java_keywords:
+            return False
+    
+    return True
 
 
 def to_camel_case(snake_str: str) -> str:
