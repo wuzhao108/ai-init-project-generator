@@ -29,54 +29,56 @@ ai-init-project-generator/
 ├── requirements.txt           # Python 依赖
 ├── setup.py                  # 安装配置
 ├── README.md                 # 项目说明
-├── spring_init/              # 核心生成器模块
+├── templates/                # 项目模板文件（Markdown格式）
+│   ├── demo-template.md      # 演示模板
+│   ├── spring-boot-basic.md  # 基础Spring Boot模板
+│   ├── spring-boot-microservice.md # 微服务模板
+│   ├── spring-boot-templates.md # Spring Boot模板集合
+│   └── spring-boot-web.md    # Web应用模板
+├── scripts/                  # 核心脚本和工具
+│   ├── README.md            # 脚本说明
 │   ├── __init__.py
-│   ├── cli.py               # CLI 命令行接口
-│   ├── config.py            # 配置数据结构
-│   ├── generator.py         # 项目生成器核心
-│   ├── interactive.py       # 交互式配置收集
-│   ├── template_manager.py  # 模板文件管理
-│   └── utils.py            # 工具函数
-├── common/                  # 通用代码目录
-│   ├── utils/              # 通用工具函数
-│   │   ├── string_utils.py # 字符串处理工具
-│   │   └── file_utils.py   # 文件操作工具
-│   ├── validators/         # 验证器
+│   ├── configs_main/        # 配置管理系统V2
+│   │   ├── README.md        # 配置系统详细说明
+│   │   ├── __init__.py
+│   │   ├── system/          # 系统级配置
+│   │   │   └── system.json # 系统配置文件
+│   │   ├── history/         # 历史配置（Markdown格式）
+│   │   │   └── *.md        # 项目历史配置
+│   │   ├── backup/          # 备份目录
+│   │   ├── config_manager_v2.py # 配置管理器V2
+│   │   ├── config_cli.py    # 配置管理CLI工具
+│   │   ├── config_migrator.py # 配置迁移工具
+│   │   ├── default_template.json # 默认模板配置
+│   │   ├── spring-demo-template.json # Spring演示模板配置
+│   │   └── spring-demo.json # Spring演示配置
+│   ├── core/                # 核心功能模块
+│   │   ├── __init__.py
+│   │   ├── config_manager.py # 配置文件管理器
+│   │   ├── interactive_config.py # 交互式配置收集
+│   │   ├── project_generator.py # 项目生成器核心
+│   │   └── template_manager.py # 模板文件管理器
+│   ├── utils/               # 通用工具函数
+│   │   ├── __init__.py
+│   │   ├── file_utils.py    # 文件操作工具
+│   │   └── string_utils.py  # 字符串处理工具
+│   ├── validators/          # 验证器
+│   │   ├── __init__.py
 │   │   └── project_validator.py # 项目配置验证
-│   ├── constants/          # 常量定义
-│   │   └── project_constants.py # 项目常量
-│   └── config_manager.py   # 配置文件管理器
-├── templates/              # Jinja2 模板文件
-├── configs/                # 配置管理系统V2
-│   ├── README.md           # 配置系统详细说明
-│   ├── system/             # 系统级配置
-│   │   └── system.json    # 系统配置文件
-│   ├── templates/          # 模板配置（Markdown格式）
-│   │   ├── spring-boot-basic.md
-│   │   ├── spring-boot-microservice.md
-│   │   └── spring-boot-web.md
-│   ├── history/            # 历史配置（Markdown格式）
-│   │   └── *.md           # 项目历史配置
-│   ├── backup/             # 备份目录
-│   ├── config_manager_v2.py # 配置管理器V2
-│   ├── config_cli.py       # 配置管理CLI工具
-│   ├── config_migrator.py  # 配置迁移工具
-│   └── default_template.json # 默认模板配置
+│   └── constants/           # 常量定义
+│       ├── __init__.py
+│       └── project_constants.py # 项目常量
 ├── docs/                    # 项目文档
 │   ├── README.md           # 详细功能文档
 │   ├── QUICK_START.md      # 快速开始指南
 │   ├── API_REFERENCE.md    # API参考文档
 │   ├── TROUBLESHOOTING.md  # 故障排除指南
 │   └── INDEX.md            # 文档索引
-├── scripts/                 # 测试和调试脚本
-│   ├── README.md           # 脚本说明
-│   ├── test_click.py       # 依赖测试脚本
-│   ├── verify_structure.py # 结构验证脚本
-│   └── debug_import.py     # 导入调试脚本
 ├── output/                  # 生成的项目输出目录
 └── tests/                   # 测试文件
     ├── __init__.py
-    └── test_*.py
+    ├── test_directory_reorganization.py # 目录重组测试
+    └── test_*.py           # 其他测试文件
 ```
 
 ## 🚀 快速开始
@@ -197,8 +199,8 @@ python main.py import-config ./config.json --config-name imported-config
 python main.py delete-config my-config
 
 # 配置管理CLI工具
-python configs/config_cli.py template list
-python configs/config_cli.py history cleanup --days 30
+python scripts/configs_main/config_cli.py template list
+python scripts/configs_main/config_cli.py history cleanup --days 30
 ```
 
 ## 📖 详细文档
@@ -210,7 +212,7 @@ python configs/config_cli.py history cleanup --days 30
 - **[📚 API参考文档](docs/API_REFERENCE.md)** - 核心类和方法的详细说明
 - **[🔧 故障排除指南](docs/TROUBLESHOOTING.md)** - 常见问题和解决方案
 - **[📑 文档索引](docs/INDEX.md)** - 文档导航和搜索指南
-- **[⚙️ 配置管理系统](configs/README.md)** - 配置管理系统V2详细说明
+- **[⚙️ 配置管理系统](scripts/configs_main/README.md)** - 配置管理系统V2详细说明
 - **[🔨 脚本工具](scripts/README.md)** - 测试和调试脚本说明
 
 ### 命令行选项
@@ -223,7 +225,7 @@ python main.py --help
 python main.py create --help
 
 # 查看配置管理CLI帮助
-python configs/config_cli.py --help
+python scripts/configs_main/config_cli.py --help
 ```
 
 ## 🛠️ 支持的技术栈

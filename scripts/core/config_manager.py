@@ -23,14 +23,16 @@ class ConfigManager:
         初始化配置管理器
         
         Args:
-            config_dir: 配置文件目录，默认为项目根目录下的configs目录
+            config_dir: 配置文件目录路径，默认为scripts目录下的configs_main目录
         """
         if config_dir is None:
             # 获取项目根目录
-            project_root = Path(__file__).parent.parent
-            config_dir = project_root / "configs"
+            project_root = Path(__file__).parent.parent.parent
+            config_dir = project_root / "scripts" / "configs_main"
         
         self.config_dir = Path(config_dir)
+        
+        # 确保配置目录存在
         ensure_dir(str(self.config_dir))
     
     def save_config(self, config: Dict[str, Any], config_name: str = None) -> str:

@@ -1,0 +1,31 @@
+{
+  "name": "spring-demo-4",
+  "package": "com.wshoto",
+  "version": "1.0.0",
+  "description": "ssss",
+  "java_version": "17",
+  "spring_boot_version": "3.2.2",
+  "project_type": "single",
+  "modules": [],
+  "tech_stack": {
+    "database": "postgresql",
+    "orm": "mybatis",
+    "cache": [],
+    "mq": [],
+    "nosql": [],
+    "doc": [],
+    "security": [],
+    "monitor": [],
+    "web_framework": "spring-web",
+    "test_frameworks": [
+      "junit5",
+      "mockito"
+    ]
+  },
+  "output_dir": "./output",
+  "generate_sample_code": false,
+  "generate_tests": false,
+  "generate_docker": false,
+  "created_at": "2025-07-06T18:36:36.714239",
+  "updated_at": "2025-07-06T18:36:36.714239"
+}

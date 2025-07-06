@@ -111,6 +111,77 @@ class InteractiveConfig:
             console.print(f"[red]❌ 收集配置失败: {str(e)}[/red]")
             return None
     
+    def collect_config_without_save(self, load_from_existing: bool = False) -> Optional[Dict[str, Any]]:
+        """
+        收集项目配置（不包含保存逻辑）
+        
+        Args:
+            load_from_existing: 是否从已有配置文件加载
+            
+        Returns:
+            Optional[Dict[str, Any]]: 项目配置字典，如果用户取消则返回None
+        """
+        try:
+            console.print("\n[bold blue]🚀 欢迎使用SpringBoot项目脚手架生成器！[/bold blue]")
+            console.print("请按照提示输入项目信息...\n")
+            
+            # 询问是否从已有配置加载
+            if load_from_existing or self._ask_load_from_existing():
+                config = self._load_existing_config()
+                if config:
+                    return config
+            
+            # 收集基本信息
+            basic_info = self._collect_basic_info()
+            if not basic_info:
+                return None
+            
+            # 收集技术版本
+            versions = self._collect_versions()
+            if not versions:
+                return None
+            
+            # 收集项目结构
+            structure = self._collect_structure()
+            if not structure:
+                return None
+            
+            # 收集技术栈
+            tech_stack = self._collect_tech_stack()
+            if not tech_stack:
+                return None
+            
+            # 收集生成选项
+            options = self._collect_options()
+            if not options:
+                return None
+            
+            # 构建配置字典
+            config = {
+                ProjectConstants.CONFIG_NAME: basic_info['name'],
+                ProjectConstants.CONFIG_PACKAGE: basic_info['package'],
+                ProjectConstants.CONFIG_VERSION: basic_info['version'],
+                ProjectConstants.CONFIG_DESCRIPTION: basic_info['description'],
+                ProjectConstants.CONFIG_JAVA_VERSION: versions['java_version'],
+                ProjectConstants.CONFIG_SPRING_BOOT_VERSION: versions['spring_version'],
+                ProjectConstants.CONFIG_PROJECT_TYPE: structure['project_type'],
+                ProjectConstants.CONFIG_MODULES: structure['modules'],
+                ProjectConstants.CONFIG_TECH_STACK: tech_stack,
+                ProjectConstants.CONFIG_OUTPUT_DIR: basic_info['output_dir'],
+                ProjectConstants.CONFIG_GENERATE_SAMPLE_CODE: options['generate_sample_code'],
+                ProjectConstants.CONFIG_GENERATE_TESTS: options['generate_tests'],
+                ProjectConstants.CONFIG_GENERATE_DOCKER: options['generate_docker']
+            }
+            
+            return config
+            
+        except KeyboardInterrupt:
+            console.print("\n[yellow]用户取消操作[/yellow]")
+            return None
+        except Exception as e:
+            console.print(f"[red]❌ 收集配置失败: {str(e)}[/red]")
+            return None
+    
     def _collect_basic_info(self) -> Optional[Dict[str, str]]:
         """
         收集基本信息

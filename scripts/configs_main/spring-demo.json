@@ -1,0 +1,41 @@
+{
+  "name": "spring-demo",
+  "package": "com.wshoto",
+  "version": "1.0.0",
+  "description": "spring-demo - SpringBoot项目",
+  "java_version": "11",
+  "spring_boot_version": "2.7.18",
+  "project_type": "single",
+  "modules": [],
+  "tech_stack": {
+    "database": "postgresql",
+    "orm": "mybatis",
+    "cache": [
+      "redis"
+    ],
+    "mq": [
+      "rabbitmq"
+    ],
+    "nosql": [],
+    "doc": [
+      "swagger"
+    ],
+    "security": [
+      "spring-security"
+    ],
+    "monitor": [
+      "actuator"
+    ],
+    "web_framework": "spring-web",
+    "test_frameworks": [
+      "junit5",
+      "mockito"
+    ]
+  },
+  "output_dir": "./output",
+  "generate_sample_code": true,
+  "generate_tests": true,
+  "generate_docker": true,
+  "created_at": "2025-07-06T18:18:24.514962",
+  "updated_at": "2025-07-06T18:18:24.514962"
+}

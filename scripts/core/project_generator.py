@@ -8,9 +8,12 @@ import os
 import shutil
 from pathlib import Path
 from typing import Dict, Any, Optional
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, DictLoader, select_autoescape
+import yaml
+import re
 
 from .config_manager import ConfigManager
+from .template_manager import TemplateManager
 from ..utils.file_utils import ensure_dir, write_file
 from ..constants.project_constants import ProjectConstants
 from ..validators.project_validator import ProjectValidator
@@ -19,24 +22,28 @@ from ..validators.project_validator import ProjectValidator
 class ProjectGenerator:
     """项目生成器"""
     
-    def __init__(self, config=None, config_manager: ConfigManager = None):
+    def __init__(self, config=None, config_manager: ConfigManager = None, template_manager: TemplateManager = None):
         """
         初始化项目生成器
         
         Args:
             config: 项目配置对象或字典（可选）
             config_manager: 配置管理器实例
+            template_manager: 模板管理器实例
         """
         self.config = config
         self.config_manager = config_manager or ConfigManager()
+        self.template_manager = template_manager or TemplateManager()
         
-        # 获取项目根目录和模板目录
+        # 获取项目根目录
         self.project_root = Path(__file__).parent.parent.parent
-        self.templates_dir = self.project_root / "templates"
+        
+        # 从模板管理器加载模板内容
+        self.templates = self._load_templates_from_manager()
         
         # 初始化Jinja2环境
         self.jinja_env = Environment(
-            loader=FileSystemLoader(str(self.templates_dir)),
+            loader=DictLoader(self.templates),
             autoescape=select_autoescape(['html', 'xml']),
             trim_blocks=True,
             lstrip_blocks=True
@@ -527,3 +534,101 @@ class ProjectGenerator:
         self.jinja_env.filters['pascal_case'] = to_pascal_case
         self.jinja_env.filters['snake_case'] = to_snake_case
         self.jinja_env.filters['package_to_path'] = package_to_path
+    
+    def _load_templates_from_manager(self) -> Dict[str, str]:
+        """
+        从模板管理器中加载模板内容
+        
+        Returns:
+            Dict[str, str]: 模板名称到模板内容的映射
+        """
+        templates = {}
+        
+        # 尝试加载spring-boot-templates模板
+        try:
+            if self.template_manager.template_exists("spring-boot-templates"):
+                content = self.template_manager.load_template("spring-boot-templates")
+                templates = self.template_manager.extract_templates_from_markdown(content)
+            else:
+                # 如果模板文件不存在，使用默认模板
+                print("警告: spring-boot-templates.md 模板文件不存在，使用默认模板")
+                templates = self._get_default_templates()
+        except Exception as e:
+            print(f"警告: 加载模板文件失败 ({str(e)})，使用默认模板")
+            templates = self._get_default_templates()
+        
+        return templates
+    
+
+    
+    def _get_default_templates(self) -> Dict[str, str]:
+        """
+        获取默认模板内容（作为后备方案）
+        
+        Returns:
+            Dict[str, str]: 默认模板映射
+        """
+        return {
+            "Application.java.j2": """package {{ config.package }};
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * {{ config.description }}
+ * 
+ * @author AI Generator
+ * @version {{ config.version }}
+ */
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}""",
+            "README.md.j2": """# {{ config.name }}
+
+{{ config.description }}
+
+## 项目信息
+
+- **项目名称**: {{ config.name }}
+- **版本**: {{ config.version }}
+- **Java版本**: {{ config.java_version }}
+- **Spring Boot版本**: {{ config.spring_boot_version }}
+- **包名**: {{ config.package }}
+""",
+            ".gitignore.j2": """# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Maven
+target/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+"""
+        }
