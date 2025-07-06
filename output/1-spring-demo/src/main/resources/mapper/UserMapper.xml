@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.project.mapper.UserMapper">
+<mapper namespace="com.wshoto.mapper.UserMapper">
 
     <!-- 结果映射 -->
-    <resultMap id="UserResultMap" type="com.example.project.entity.User">
+    <resultMap id="UserResultMap" type="com.wshoto.entity.User">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="email" property="email"/>
@@ -35,13 +35,13 @@
     </select>
 
     <!-- 插入用户 -->
-    <insert id="insert" parameterType="com.example.project.entity.User" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.wshoto.entity.User" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO users (username, email, password, full_name, created_at, updated_at)
         VALUES (#{username}, #{email}, #{password}, #{fullName}, #{createdAt}, #{updatedAt})
     </insert>
 
     <!-- 更新用户 -->
-    <update id="update" parameterType="com.example.project.entity.User">
+    <update id="update" parameterType="com.wshoto.entity.User">
         UPDATE users
         SET username = #{username},
             email = #{email},

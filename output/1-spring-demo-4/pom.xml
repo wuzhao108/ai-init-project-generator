@@ -14,8 +14,8 @@
     <groupId></groupId>
     <artifactId></artifactId>
     <version>1.0.0</version>
-    <name>my-spring-boot-project</name>
-    <description>基于默认模板的Spring Boot项目</description>
+    <name>spring-demo-4</name>
+    <description>ssss</description>
     <packaging>jar</packaging>
 
     <properties>
@@ -41,10 +41,10 @@
         </dependency>
 
 
-        <!-- MySQL Driver -->
+        <!-- PostgreSQL Driver -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
 

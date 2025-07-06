@@ -1,18 +1,18 @@
-# my-spring-boot-project
+# spring-demo-4
 
-基于默认模板的Spring Boot项目
+ssss
 
 ## 项目信息
 
-- **项目名称**: my-spring-boot-project
+- **项目名称**: spring-demo-4
 - **版本**: 1.0.0
 - **Java版本**: 17
 - **Spring Boot版本**: 3.2.2
-- **包名**: com.example.project
+- **包名**: com.wshoto
 
 ## 技术栈
 
-- **数据库**: Mysql
+- **数据库**: Postgresql
 - **ORM框架**: Mybatis
 ## 快速开始
 

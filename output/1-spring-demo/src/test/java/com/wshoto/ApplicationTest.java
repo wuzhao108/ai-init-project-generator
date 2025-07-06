@@ -1,4 +1,4 @@
-package com.example.project;
+package com.wshoto;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

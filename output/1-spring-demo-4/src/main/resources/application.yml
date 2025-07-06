@@ -5,17 +5,17 @@ server:
 
 spring:
   application:
-    name: my-spring-boot-project
+    name: spring-demo-4
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/my_spring_boot_project?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
+    url: jdbc:postgresql://localhost:5432/spring_demo_4
+    username: postgres
     password: password
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.example.project.entity
+  type-aliases-package: com.wshoto.entity
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -23,6 +23,6 @@ mybatis:
 logging:
   config: classpath:logback-spring.xml
   level:
-    com.example.project: DEBUG
+    com.wshoto: DEBUG
     org.springframework: INFO
     org.mybatis: DEBUG

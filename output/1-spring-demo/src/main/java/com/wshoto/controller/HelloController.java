@@ -1,4 +1,4 @@
-package com.example.project.controller;
+package com.wshoto.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,11 +14,11 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Hello, World! Welcome to my-spring-boot-project!";
+        return "Hello, World! Welcome to spring-demo!";
     }
 
     @GetMapping("/")
     public String index() {
-        return "基于默认模板的Spring Boot项目";
+        return "spring-demo - SpringBoot项目";
     }
 }

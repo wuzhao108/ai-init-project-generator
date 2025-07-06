@@ -1,4 +1,4 @@
-package com.example.project.entity;
+package com.wshoto.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
