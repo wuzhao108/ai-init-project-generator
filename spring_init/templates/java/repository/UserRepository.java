@@ -15,7 +15,7 @@ import java.util.Optional;
  * 用户数据访问层
  * 
  * @author {{ config.name }}
- * @since {{ "now" | strftime("%Y-%m-%d") }}
+ * @since 2024-01-01
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {

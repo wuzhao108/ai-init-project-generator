@@ -30,7 +30,7 @@ import java.util.Optional;
  * 用户服务实现类
  * 
  * @author {{ config.name }}
- * @since {{ "now" | strftime("%Y-%m-%d") }}
+ * @since 2024-01-01
  */
 @Service
 @Transactional(rollbackFor = Exception.class)

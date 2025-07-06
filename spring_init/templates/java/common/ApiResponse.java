@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-{% if 'swagger' in config.tech_stack.docs %}
+{% if config.tech_stack.doc %}
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 {% endif %}
@@ -13,10 +13,10 @@ import io.swagger.annotations.ApiModelProperty;
  * 统一API响应结构
  * 
  * @author {{ config.name }}
- * @since {{ "now" | strftime("%Y-%m-%d") }}
+ * @since 2024-01-01
  */
-{% if 'swagger' in config.tech_stack.docs %}
-@ApiModel(description = "统一API响应结构")
+{% if config.tech_stack.doc %}
+@ApiModel(description = "统一API响应结果")
 {% endif %}
 public class ApiResponse<T> implements Serializable {
 
@@ -55,15 +55,15 @@ public class ApiResponse<T> implements Serializable {
     /**
      * 状态码
      */
-    {% if 'swagger' in config.tech_stack.docs %}
-    @ApiModelProperty(value = "状态码", example = "200")
+    {% if config.tech_stack.doc %}
+    @ApiModelProperty(value = "响应状态码", example = "200")
     {% endif %}
     private int code;
 
     /**
      * 响应消息
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "响应消息", example = "操作成功")
     {% endif %}
     private String message;
@@ -71,7 +71,7 @@ public class ApiResponse<T> implements Serializable {
     /**
      * 响应数据
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "响应数据")
     {% endif %}
     private T data;
@@ -79,8 +79,8 @@ public class ApiResponse<T> implements Serializable {
     /**
      * 时间戳
      */
-    {% if 'swagger' in config.tech_stack.docs %}
-    @ApiModelProperty(value = "时间戳", example = "2023-01-01 12:00:00")
+    {% if config.tech_stack.doc %}
+    @ApiModelProperty(value = "响应时间戳", example = "2023-01-01 12:00:00")
     {% endif %}
     private String timestamp;
 

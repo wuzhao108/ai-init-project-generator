@@ -1,0 +1,27 @@
+{
+  "name": "my-spring-boot-project",
+  "package": "com.example.project",
+  "version": "1.0.0",
+  "description": "基于默认模板的Spring Boot项目",
+  "java_version": "17",
+  "spring_version": "3.2.2",
+  "multi_module": false,
+  "modules": [],
+  "tech_stack": {
+    "database": "h2",
+    "orm": "jpa",
+    "cache": [],
+    "mq": [],
+    "doc": true,
+    "security": false,
+    "mongodb": false,
+    "elasticsearch": false,
+    "web_framework": "spring-web",
+    "actuator": true,
+    "test_framework": ["junit5", "mockito"]
+  },
+  "output_dir": "./output",
+  "generate_sample_code": true,
+  "generate_tests": true,
+  "generate_docker": true
+}

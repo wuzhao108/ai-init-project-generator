@@ -158,7 +158,7 @@ class ProjectConfig:
             })
         
         # Redis
-        if 'redis' in self.tech_stack.cache:
+        if isinstance(self.tech_stack.cache, list) and 'redis' in self.tech_stack.cache:
             dependencies.append({
                 'groupId': 'org.springframework.boot',
                 'artifactId': 'spring-boot-starter-data-redis',
@@ -166,7 +166,7 @@ class ProjectConfig:
             })
         
         # RabbitMQ
-        if 'rabbitmq' in self.tech_stack.mq:
+        if isinstance(self.tech_stack.mq, list) and 'rabbitmq' in self.tech_stack.mq:
             dependencies.append({
                 'groupId': 'org.springframework.boot',
                 'artifactId': 'spring-boot-starter-amqp',
@@ -174,7 +174,7 @@ class ProjectConfig:
             })
         
         # Kafka
-        if 'kafka' in self.tech_stack.mq:
+        if isinstance(self.tech_stack.mq, list) and 'kafka' in self.tech_stack.mq:
             dependencies.append({
                 'groupId': 'org.springframework.kafka',
                 'artifactId': 'spring-kafka',

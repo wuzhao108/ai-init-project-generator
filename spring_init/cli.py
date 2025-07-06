@@ -19,8 +19,8 @@ from .generator import ProjectGenerator
 from .config import ProjectConfig
 from .interactive import InteractiveConfig
 from .utils import validate_project_name, validate_package_name
-from ..common.config_manager import ConfigManager
-from ..common.constants.project_constants import ProjectConstants
+from scripts.core.config_manager import ConfigManager
+from scripts.constants.project_constants import ProjectConstants
 
 console = Console()
 

@@ -1,0 +1,31 @@
+{
+  "name": "ssss",
+  "package": "com.wshoto.app",
+  "version": "1.1.1",
+  "description": "这是一个模板生成的项目",
+  "java_version": "8",
+  "spring_version": "3.1.8",
+  "multi_module": false,
+  "tech_stack": {
+    "database": "mysql",
+    "orm": "mybatis",
+    "cache": [
+      "redis"
+    ],
+    "mq": [
+      "rabbitmq"
+    ],
+    "doc": false,
+    "security": false,
+    "mongodb": false,
+    "elasticsearch": false,
+    "actuator": false
+  },
+  "modules": [],
+  "output_dir": "D:/workspace_ai/templates",
+  "generate_sample_code": true,
+  "generate_tests": false,
+  "generate_docker": false,
+  "created_at": "2025-07-05T22:09:14.410432",
+  "updated_at": "2025-07-05T22:09:14.410432"
+}

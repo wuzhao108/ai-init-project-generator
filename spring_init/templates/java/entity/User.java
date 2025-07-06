@@ -6,7 +6,7 @@ import javax.validation.constraints.*;
 {% elif config.tech_stack.orm == 'mybatis' %}
 import com.baomidou.mybatisplus.annotation.*;
 {% endif %}
-{% if 'swagger' in config.tech_stack.docs %}
+{% if config.tech_stack.doc %}
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 {% endif %}
@@ -21,7 +21,7 @@ import java.util.Objects;
  * 用户实体类
  * 
  * @author {{ config.name }}
- * @since {{ "now" | strftime("%Y-%m-%d") }}
+ * @since 2024-01-01
  */
 {% if config.tech_stack.orm == 'jpa' %}
 @Entity
@@ -29,8 +29,8 @@ import java.util.Objects;
 {% elif config.tech_stack.orm == 'mybatis' %}
 @TableName("t_user")
 {% endif %}
-{% if 'swagger' in config.tech_stack.docs %}
-@ApiModel(description = "用户信息")
+{% if config.tech_stack.doc %}
+@ApiModel(description = "用户实体")
 {% endif %}
 public class User implements Serializable {
 
@@ -46,7 +46,7 @@ public class User implements Serializable {
     {% elif config.tech_stack.orm == 'mybatis' %}
     @TableId(value = "id", type = IdType.AUTO)
     {% endif %}
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "用户ID", example = "1")
     {% endif %}
     private Long id;
@@ -91,7 +91,7 @@ public class User implements Serializable {
     {% elif config.tech_stack.orm == 'mybatis' %}
     @TableField("email")
     {% endif %}
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "邮箱", example = "admin@example.com")
     {% endif %}
     private String email;
@@ -146,8 +146,8 @@ public class User implements Serializable {
     {% elif config.tech_stack.orm == 'mybatis' %}
     @TableField("age")
     {% endif %}
-    {% if 'swagger' in config.tech_stack.docs %}
-    @ApiModelProperty(value = "年龄", example = "25")
+    {% if config.tech_stack.doc %}
+    @ApiModelProperty(value = "用户名", example = "admin")
     {% endif %}
     private Integer age;
 
@@ -198,7 +198,7 @@ public class User implements Serializable {
     {% elif config.tech_stack.orm == 'mybatis' %}
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     {% endif %}
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "创建时间", example = "2023-01-01 12:00:00")
     {% endif %}
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -212,7 +212,7 @@ public class User implements Serializable {
     {% elif config.tech_stack.orm == 'mybatis' %}
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     {% endif %}
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "更新时间", example = "2023-01-01 12:00:00")
     {% endif %}
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

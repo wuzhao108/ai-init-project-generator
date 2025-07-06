@@ -30,7 +30,7 @@
 {% endif %}
 
 ### 缓存
-{% if 'redis' in config.tech_stack.cache %}
+{% if config.tech_stack.cache and 'redis' in config.tech_stack.cache %}
 - Redis - 分布式缓存
 {% endif %}
 {% if 'caffeine' in config.tech_stack.cache %}
@@ -38,34 +38,34 @@
 {% endif %}
 
 ### 消息队列
-{% if 'rabbitmq' in config.tech_stack.mq %}
+{% if config.tech_stack.mq and 'rabbitmq' in config.tech_stack.mq %}
 - RabbitMQ - 消息中间件
 {% endif %}
-{% if 'kafka' in config.tech_stack.mq %}
+{% if config.tech_stack.mq and 'kafka' in config.tech_stack.mq %}
 - Apache Kafka - 分布式流处理平台
 {% endif %}
 
 ### NoSQL数据库
-{% if 'mongodb' in config.tech_stack.nosql %}
+{% if config.tech_stack.mongodb %}
 - MongoDB - 文档数据库
 {% endif %}
-{% if 'elasticsearch' in config.tech_stack.nosql %}
+{% if config.tech_stack.elasticsearch %}
 - Elasticsearch - 搜索引擎
 {% endif %}
 
 ### 文档工具
-{% if 'swagger' in config.tech_stack.doc %}
+{% if config.tech_stack.doc %}
 - Swagger/OpenAPI 3 - API文档生成
 {% endif %}
 
 ### 安全框架
-{% if 'spring-security' in config.tech_stack.security %}
+{% if config.tech_stack.security %}
 - Spring Security - 安全框架
 - JWT - JSON Web Token
 {% endif %}
 
 ### 监控
-{% if 'actuator' in config.tech_stack.monitor %}
+{% if config.tech_stack.actuator %}
 - Spring Boot Actuator - 应用监控
 {% endif %}
 
@@ -231,10 +231,10 @@
 
 5. **访问应用**
    - 应用地址: http://localhost:8080
-{% if 'swagger' in config.tech_stack.doc %}
+{% if config.tech_stack.doc %}
    - API文档: http://localhost:8080/swagger-ui/index.html
 {% endif %}
-{% if 'actuator' in config.tech_stack.monitor %}
+{% if config.tech_stack.actuator %}
    - 健康检查: http://localhost:8080/actuator/health
 {% endif %}
 
@@ -351,7 +351,7 @@ A: 在配置类中添加 `@CrossOrigin` 注解或配置 `CorsConfigurationSource
 
 ## 更新日志
 
-### v{{ config.version }} ({{ "now" | strftime("%Y-%m-%d") }})
+### v{{ config.version }} (2024-01-01)
 - 初始版本发布
 - 基础功能实现
 - 项目架构搭建完成

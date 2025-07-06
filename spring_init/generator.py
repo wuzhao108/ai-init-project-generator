@@ -17,12 +17,12 @@ from rich.tree import Tree
 from rich.text import Text
 from datetime import datetime
 
-from .config import ProjectConfig, TechStackConfig
+from .config import ProjectConfig, TechStack
 from .template_manager import TemplateManager
-from ..common.utils.string_utils import to_camel_case, to_pascal_case
-from ..common.config_manager import ConfigManager
-from ..common.utils.file_utils import ensure_dir, copy_directory
-from ..common.constants.project_constants import ProjectConstants
+from scripts.utils.string_utils import to_camel_case, to_pascal_case
+from scripts.core.config_manager import ConfigManager
+from scripts.utils.file_utils import ensure_dir, copy_directory
+from scripts.constants.project_constants import ProjectConstants
 from .utils import (
     get_java_package_path, project_name_to_class_name,
     to_snake_case, get_current_date,
@@ -81,9 +81,9 @@ class ProjectGenerator:
             # 创建带时间戳的项目目录
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             project_dir_name = f"{self.config.name}_{timestamp}"
-            self.config.project_path = str(output_base / project_dir_name)
+            self.config.output_dir = str(output_base / project_dir_name)
         else:
-            self.config.project_path = output_dir
+            self.config.output_dir = output_dir
         
         console.print(f"\n[bold green]🚀 开始生成项目: {self.config.name}[/bold green]")
         
@@ -528,7 +528,7 @@ class ProjectGenerator:
     def _generate_docs_and_others(self, progress: Progress, task: TaskID) -> None:
         """生成文档和其他文件"""
         # 生成README.md
-        template = self.jinja_env.get_template('docs/README.md')
+        template = self.jinja_env.get_template('other/README.md')
         content = template.render(config=self.config)
         readme_path = os.path.join(self.config.project_path, 'README.md')
         self._write_file(readme_path, content)
@@ -714,11 +714,11 @@ class ProjectGenerator:
         Returns:
             ProjectConfig: 项目配置对象
         """
-        from .config import ModuleConfig, TechStackConfig
+        from .config import ModuleConfig, TechStack
         
         # 创建技术栈配置
         tech_stack_dict = config_dict.get(ProjectConstants.CONFIG_TECH_STACK, {})
-        tech_stack = TechStackConfig(
+        tech_stack = TechStack(
             database=tech_stack_dict.get(ProjectConstants.TECH_DATABASE, ProjectConstants.DEFAULT_DATABASE),
             orm=tech_stack_dict.get(ProjectConstants.TECH_ORM, ProjectConstants.DEFAULT_ORM),
             cache=tech_stack_dict.get(ProjectConstants.TECH_CACHE, []),

@@ -1,0 +1,31 @@
+{
+  "name": "xxxx-1-11",
+  "package": "com.wshoto.aa",
+  "version": "2.0.0",
+  "description": "this is demop",
+  "java_version": "8",
+  "spring_version": "2.7.18",
+  "multi_module": false,
+  "tech_stack": {
+    "database": "mysql",
+    "orm": "mybatis",
+    "cache": [
+      "redis"
+    ],
+    "mq": [
+      "rabbitmq"
+    ],
+    "doc": true,
+    "security": true,
+    "mongodb": true,
+    "elasticsearch": true,
+    "actuator": true
+  },
+  "modules": [],
+  "output_dir": ".",
+  "generate_sample_code": true,
+  "generate_tests": true,
+  "generate_docker": true,
+  "created_at": "2025-07-06T09:14:33.385518",
+  "updated_at": "2025-07-06T09:14:33.385518"
+}

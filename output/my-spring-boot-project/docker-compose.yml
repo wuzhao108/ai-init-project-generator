@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # 应用服务
+  my-spring-boot-project:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-spring-boot-project-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_HOST=h2
+      - DB_USERNAME=my-spring-boot-project_user
+      - DB_PASSWORD=your_password_here
+    volumes:
+      - ./logs:/var/log/my-spring-boot-project
+      - ./uploads:/var/uploads/my-spring-boot-project
+    depends_on:
+    networks:
+      - my-spring-boot-project-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+
+
+
+
+
+
+# 网络配置
+networks:
+  my-spring-boot-project-network:
+    driver: bridge
+
+# 数据卷配置
+volumes:

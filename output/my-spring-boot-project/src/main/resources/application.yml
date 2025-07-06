@@ -1,0 +1,84 @@
+# 应用配置
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 200
+    max-connections: 8192
+
+# Spring配置
+spring:
+  application:
+    name: my-spring-boot-project
+  profiles:
+    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+# MyBatis配置
+
+# 日志配置
+logging:
+  level:
+    root: info
+    com.example.project: debug
+  file:
+    name: logs/my-spring-boot-project.log
+
+# Swagger配置
+
+# Actuator配置
+
+# 自定义配置
+my-spring-boot-project:
+  version: 1.0.0
+  description: 基于默认模板的Spring Boot项目
+  # 上传文件配置
+  upload:
+    base-dir: ./uploads
+    allowed-types: jpg,jpeg,png,gif,doc,docx,xls,xlsx,pdf,zip,rar
+    max-size: 10485760
+  # 线程池配置
+  thread-pool:
+    core-size: 10
+    max-size: 20
+    queue-capacity: 200
+    keep-alive-seconds: 60
+  # 安全配置
+  security:
+    # 忽略鉴权的URL
+    ignore-urls:
+      - /
+      - /login
+      - /logout
+      - /register
+      - /captcha
+      - /actuator/**
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /v2/api-docs
+      - /webjars/**
+      - /druid/**
+      - /favicon.ico
+    # JWT配置
+    jwt:
+      secret: my-spring-boot-project_jwt_secret_key
+      expiration: 86400000
+      header: Authorization
+      token-prefix: Bearer

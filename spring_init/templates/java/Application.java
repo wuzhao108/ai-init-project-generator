@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * SpringBoot应用启动类
  * 
  * @author {{ config.name }}
- * @since {{ "now" | strftime("%Y-%m-%d") }}
+ * @since 2024-01-01
  */
 @SpringBootApplication
 {% if config.tech_stack.orm == 'mybatis' %}

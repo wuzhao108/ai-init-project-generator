@@ -1,6 +1,6 @@
 package {{ config.package }}.common;
 
-{% if 'swagger' in config.tech_stack.docs %}
+{% if config.tech_stack.doc %}
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 {% endif %}
@@ -13,10 +13,10 @@ import java.io.Serializable;
  * 分页查询请求
  * 
  * @author {{ config.name }}
- * @since {{ "now" | strftime("%Y-%m-%d") }}
+ * @since 2024-01-01
  */
-{% if 'swagger' in config.tech_stack.docs %}
-@ApiModel(description = "分页查询请求")
+{% if config.tech_stack.doc %}
+@ApiModel(description = "分页请求参数")
 {% endif %}
 public class PageRequest implements Serializable {
 
@@ -25,8 +25,8 @@ public class PageRequest implements Serializable {
     /**
      * 页码（从1开始）
      */
-    {% if 'swagger' in config.tech_stack.docs %}
-    @ApiModelProperty(value = "页码（从1开始）", example = "1")
+    {% if config.tech_stack.doc %}
+    @ApiModelProperty(value = "页码", example = "1")
     {% endif %}
     @Min(value = 1, message = "页码不能小于1")
     private Integer pageNum = 1;
@@ -34,7 +34,7 @@ public class PageRequest implements Serializable {
     /**
      * 每页大小
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "每页大小", example = "10")
     {% endif %}
     @Min(value = 1, message = "每页大小不能小于1")
@@ -44,16 +44,16 @@ public class PageRequest implements Serializable {
     /**
      * 排序字段
      */
-    {% if 'swagger' in config.tech_stack.docs %}
-    @ApiModelProperty(value = "排序字段", example = "createTime")
+    {% if config.tech_stack.doc %}
+    @ApiModelProperty(value = "排序字段", example = "id")
     {% endif %}
     private String orderBy;
 
     /**
      * 排序方向（asc/desc）
      */
-    {% if 'swagger' in config.tech_stack.docs %}
-    @ApiModelProperty(value = "排序方向（asc/desc）", example = "desc")
+    {% if config.tech_stack.doc %}
+    @ApiModelProperty(value = "排序方向", example = "desc")
     {% endif %}
     private String orderDirection = "desc";
 

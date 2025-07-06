@@ -4,7 +4,7 @@ package {{ config.package }}.common;
  * 业务异常类
  * 
  * @author {{ config.name }}
- * @since {{ "now" | strftime("%Y-%m-%d") }}
+ * @since 2024-01-01
  */
 public class BusinessException extends RuntimeException {
 

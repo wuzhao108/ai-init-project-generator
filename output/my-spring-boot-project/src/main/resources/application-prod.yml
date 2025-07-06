@@ -1,0 +1,46 @@
+# 生产环境配置
+server:
+  port: 8080
+  tomcat:
+    max-threads: 500
+    max-connections: 10000
+
+# Spring配置
+spring:
+
+# 日志配置
+logging:
+  level:
+    root: warn
+    com.example.project: info
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n'
+  file:
+    name: /var/log/my-spring-boot-project/my-spring-boot-project-prod.log
+    max-size: 500MB
+    max-history: 90
+
+# Swagger配置（生产环境建议关闭）
+
+# Actuator配置
+
+# 自定义配置
+my-spring-boot-project:
+  # 生产环境配置
+  debug: false
+  # 文件上传配置
+  upload:
+    base-dir: /var/uploads/my-spring-boot-project
+    max-size: 52428800  # 50MB
+  # 线程池配置
+  thread-pool:
+    core-size: 20
+    max-size: 50
+    queue-capacity: 1000
+    keep-alive-seconds: 300
+  # 安全配置
+  security:
+    jwt:
+      secret: ${JWT_SECRET:my-spring-boot-project_prod_jwt_secret_key_change_me}
+      expiration: 43200000  # 12小时

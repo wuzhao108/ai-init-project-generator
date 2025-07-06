@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0",
+  "app_name": "Spring Boot Project Generator",
+  "description": "AI驱动的Spring Boot项目生成器",
+  "output": {
+    "default_dir": "./my_output",
+    "backup_dir": "./backup",
+    "temp_dir": "./temp"
+  },
+  "templates": {
+    "base_path": "./spring_init/templates",
+    "cache_enabled": true,
+    "cache_ttl": 3600
+  },
+  "logging": {
+    "level": "DEBUG",
+    "file": "./logs/generator.log",
+    "max_size": "10MB",
+    "backup_count": 5
+  },
+  "generator": {
+    "max_concurrent_tasks": 4,
+    "timeout_seconds": 300,
+    "auto_backup": true
+  },
+  "ui": {
+    "theme": "default",
+    "language": "zh-CN",
+    "show_progress": true
+  },
+  "validation": {
+    "strict_mode": false,
+    "check_dependencies": true,
+    "validate_package_name": true
+  },
+  "created_at": "2024-01-01T00:00:00Z",
+  "updated_at": "2025-07-06T10:10:40.731076"
+}

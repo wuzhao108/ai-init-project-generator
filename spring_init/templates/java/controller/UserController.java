@@ -20,7 +20,7 @@ import java.util.List;
  * 用户控制器
  * 
  * @author {{ config.name }}
- * @since {{ "now" | strftime("%Y-%m-%d") }}
+ * @since 2024-01-01
  */
 @RestController
 @RequestMapping("/api/users")

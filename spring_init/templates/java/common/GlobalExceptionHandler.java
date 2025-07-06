@@ -22,7 +22,7 @@ import java.util.Set;
  * 全局异常处理器
  * 
  * @author {{ config.name }}
- * @since {{ "now" | strftime("%Y-%m-%d") }}
+ * @since 2024-01-01
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {

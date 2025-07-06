@@ -1,6 +1,6 @@
 package {{ config.package }}.common;
 
-{% if 'swagger' in config.tech_stack.docs %}
+{% if config.tech_stack.doc %}
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 {% endif %}
@@ -12,9 +12,9 @@ import java.util.List;
  * 分页查询结果
  * 
  * @author {{ config.name }}
- * @since {{ "now" | strftime("%Y-%m-%d") }}
+ * @since 2024-01-01
  */
-{% if 'swagger' in config.tech_stack.docs %}
+{% if config.tech_stack.doc %}
 @ApiModel(description = "分页查询结果")
 {% endif %}
 public class PageResult<T> implements Serializable {
@@ -24,7 +24,7 @@ public class PageResult<T> implements Serializable {
     /**
      * 当前页码
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "当前页码", example = "1")
     {% endif %}
     private Integer pageNum;
@@ -32,7 +32,7 @@ public class PageResult<T> implements Serializable {
     /**
      * 每页大小
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "每页大小", example = "10")
     {% endif %}
     private Integer pageSize;
@@ -40,7 +40,7 @@ public class PageResult<T> implements Serializable {
     /**
      * 总记录数
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "总记录数", example = "100")
     {% endif %}
     private Long total;
@@ -48,7 +48,7 @@ public class PageResult<T> implements Serializable {
     /**
      * 总页数
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "总页数", example = "10")
     {% endif %}
     private Integer pages;
@@ -56,7 +56,7 @@ public class PageResult<T> implements Serializable {
     /**
      * 数据列表
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "数据列表")
     {% endif %}
     private List<T> list;
@@ -64,7 +64,7 @@ public class PageResult<T> implements Serializable {
     /**
      * 是否有上一页
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "是否有上一页", example = "false")
     {% endif %}
     private Boolean hasPrevious;
@@ -72,7 +72,7 @@ public class PageResult<T> implements Serializable {
     /**
      * 是否有下一页
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "是否有下一页", example = "true")
     {% endif %}
     private Boolean hasNext;
@@ -80,7 +80,7 @@ public class PageResult<T> implements Serializable {
     /**
      * 是否为第一页
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "是否为第一页", example = "true")
     {% endif %}
     private Boolean isFirst;
@@ -88,7 +88,7 @@ public class PageResult<T> implements Serializable {
     /**
      * 是否为最后一页
      */
-    {% if 'swagger' in config.tech_stack.docs %}
+    {% if config.tech_stack.doc %}
     @ApiModelProperty(value = "是否为最后一页", example = "false")
     {% endif %}
     private Boolean isLast;
