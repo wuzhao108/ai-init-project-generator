@@ -1,0 +1,22 @@
+{
+  "project_name": "test-location-fix",
+  "package_name": "com.example.test",
+  "version": "1.0.0",
+  "description": "测试项目创建位置修复",
+  "jdk_version": "17",
+  "build_tool": "Maven",
+  "spring_boot_version": "3.2.0",
+  "is_multi_module": false,
+  "modules": [],
+  "database": "MySQL",
+  "orm_framework": "JPA",
+  "cache": "无缓存",
+  "message_queue": "无消息队列",
+  "include_swagger": true,
+  "include_security": false,
+  "include_actuator": true,
+  "generate_sample_code": true,
+  "generate_tests": true,
+  "generate_docker": true,
+  "generate_readme": true
+}

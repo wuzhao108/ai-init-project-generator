@@ -1,99 +1,49 @@
-# AI Spring Boot 项目生成器
+# Java项目上下文工程生成器
 
-一个基于 Python 的智能化 Spring Boot 项目生成器，支持多种技术栈和项目结构的快速生成。该工具提供了丰富的技术栈选择、灵活的配置管理和友好的交互式界面。
+一个基于Python的交互式工具，用于生成Java项目初始化的上下文提示词。支持多种技术栈配置，生成系统提示词、用户提示词和Gemini斜杠命令文件，帮助AI快速生成高质量的Java Spring Boot项目。
 
 ## 📖 项目概述
 
 ### 🎯 设计目标
-- **提高开发效率** - 减少项目初始化时间，让开发者专注于业务逻辑
-- **标准化项目结构** - 确保团队项目结构的一致性
-- **技术栈集成** - 预配置常用技术栈，减少配置工作
-- **最佳实践** - 内置行业最佳实践和代码规范
+- **AI驱动开发** - 生成标准化的AI提示词，确保项目生成质量
+- **上下文工程** - 提供完整的项目生成上下文，包含系统指令和用户需求
+- **技术栈集成** - 支持主流Java技术栈的配置和选择
+- **标准化输出** - 生成统一格式的上下文工程文件
 
 ## ✨ 核心特性
 
-- 🚀 **快速生成** - 一键生成完整的 Spring Boot 项目结构
-- 🎯 **技术栈丰富** - 支持主流数据库、缓存、消息队列等技术栈
-- 📋 **配置管理** - 支持配置文件的保存、导入、导出和管理
-- 🔧 **灵活定制** - 支持单模块和多模块项目架构
-- 📚 **文档完整** - 自动生成项目文档和 API 文档
-- 🐳 **Docker 支持** - 自动生成 Docker 配置文件
-- 🎨 **交互友好** - 提供直观的命令行交互界面
-- 🔄 **配置管理系统V2** - 分层配置管理，支持系统、模板、历史三层架构
+- 🚀 **交互式配置** - 通过友好的命令行界面收集Java项目配置
+- 🤖 **AI提示词生成** - 自动生成系统提示词和用户提示词
+- 💎 **Gemini CLI支持** - 生成Gemini斜杠命令文件，支持一键项目生成
+- 📋 **多种技术栈** - 支持JDK版本、Spring Boot、数据库、缓存、消息队列等配置
+- 🏗️ **项目结构** - 支持单模块和多模块项目架构
+- 📁 **标准化输出** - 生成完整的上下文工程目录
+- 💾 **配置保存** - 自动保存配置历史，支持重复使用
+- 📚 **文档完整** - 包含项目结构说明和使用指南
 
 ## 📁 项目目录结构
 
 ```
 ai-init-project-generator/
-├── main.py                    # 主程序入口
-├── requirements.txt           # Python 依赖
-├── setup.py                  # 安装配置
-├── README.md                 # 项目说明
-├── .gitignore                # Git忽略文件配置
-├── templates/                # 项目模板文件（Markdown格式）
-│   ├── demo-template.md      # 演示模板
-│   ├── spring-boot-basic.md  # 基础Spring Boot模板
-│   ├── spring-boot-microservice.md # 微服务模板
-│   ├── spring-boot-templates.md # Spring Boot模板集合
-│   └── spring-boot-web.md    # Web应用模板
-├── scripts/                  # 核心脚本和工具
-│   ├── README.md            # 脚本说明
-│   ├── __init__.py
-│   ├── configs_main/        # 配置管理系统V2
-│   │   ├── README.md        # 配置系统详细说明
+├── .gitignore                    # Git忽略文件配置
+├── main.py                       # 主程序入口
+├── requirements.txt              # Python依赖包列表
+├── README.md                     # 项目说明文档
+├── scripts/                      # 核心脚本目录
+│   ├── core/                     # 核心功能模块
 │   │   ├── __init__.py
-│   │   ├── system/          # 系统级配置
-│   │   │   └── system.json # 系统配置文件
-│   │   ├── history/         # 历史配置（Markdown格式）
-│   │   │   └── *.md        # 项目历史配置
-│   │   ├── backup/          # 备份目录
-│   │   ├── templates/       # 模板配置目录
-│   │   ├── config_manager_v2.py # 配置管理器V2
-│   │   ├── config_cli.py    # 配置管理CLI工具
-│   │   ├── config_migrator.py # 配置迁移工具
-│   │   ├── default_template.json # 默认模板配置
-│   │   ├── spring-demo-template.json # Spring演示模板配置
-│   │   └── spring-demo.json # Spring演示配置
-│   ├── core/                # 核心功能模块
-│   │   ├── __init__.py
-│   │   ├── config_manager.py # 配置文件管理器
-│   │   ├── interactive_config.py # 交互式配置收集
-│   │   ├── project_generator.py # 项目生成器核心
-│   │   └── template_manager.py # 模板文件管理器
-│   ├── utils/               # 通用工具函数
-│   │   ├── __init__.py
-│   │   ├── file_utils.py    # 文件操作工具
-│   │   └── string_utils.py  # 字符串处理工具
-│   ├── validators/          # 验证器
-│   │   ├── __init__.py
-│   │   └── project_validator.py # 项目配置验证
-│   └── constants/           # 常量定义
-│       ├── __init__.py
-│       └── project_constants.py # 项目常量
-├── docs/                    # 项目文档
-│   ├── README.md           # 详细功能文档
-│   ├── QUICK_START.md      # 快速开始指南
-│   ├── API_REFERENCE.md    # API参考文档
-│   ├── TROUBLESHOOTING.md  # 故障排除指南
-│   └── INDEX.md            # 文档索引
-├── logs/                    # 项目变更日志
-│   ├── 01-配置显示功能修复-20250706.md
-│   ├── 02-配置流程优化改进-20250706.md
-│   ├── 03-配置名称验证修复-20250706.md
-│   ├── 04-目录重组变更-20250706.md
-│   ├── 05-主菜单简化改进-20250706.md
-│   ├── 06-模板系统迁移-20250706.md
-│   └── 07-项目重构总结-20250706.md
-├── output/                  # 生成的项目输出目录
-└── tests/                   # 测试文件
-    ├── __init__.py
-    ├── test_directory_reorganization.py # 目录重组测试
-    ├── test_menu_simplification.py # 菜单简化测试
-    ├── test_config_display_fix.py # 配置显示修复测试
-    ├── test_config_flow_optimization.py # 配置流程优化测试
-    ├── test_config_name_validation_fix.py # 配置名称验证修复测试
-    ├── test_project_functionality.py # 项目功能测试
-    └── temp/                # 临时测试文件目录
+│   │   ├── config_collector.py   # 配置收集器
+│   │   └── context_generator.py  # 上下文生成器
+│   └── templates/                # 项目模板文件
+│       └── java_project_template.md
+└── output/                       # 生成的上下文工程输出目录
+    └── [项目名称_时间戳]/         # 每次生成的上下文工程
+        ├── config.json           # 项目配置文件
+        ├── system_prompt.md      # 系统提示词
+        ├── user_prompt.md        # 用户提示词
+        ├── project_generator.gemini # Gemini斜杠命令文件
+        ├── project_structure.md  # 项目结构说明
+        └── README.md             # 使用说明
 ```
 
 ## 🚀 快速开始
@@ -102,8 +52,6 @@ ai-init-project-generator/
 
 - Python 3.6+
 - pip 包管理器
-- Java 8+ (用于运行生成的项目)
-- Maven 3.6+ (用于构建生成的项目)
 
 ### 安装步骤
 
@@ -119,352 +67,245 @@ pip install -r requirements.txt
 python main.py --help
 ```
 
-### 创建第一个项目
+### 创建第一个上下文工程
 
 ```bash
 # 启动交互式界面
 python main.py
 
-# 选择菜单选项：
-# 1. 🆕 创建项目模板
-# 2. 📁 从配置文件生成项目
-# 3. 📋 查看已保存的配置
-# 4. 📄 查看配置详情
-# 5. 🗑️ 删除配置文件
-# 6. 📤 导出配置文件
-# 7. 📥 导入配置文件
-# 8. 📚 查看可用模板
+# 按照提示进行配置：
+# 1. 输入项目基本信息（名称、包名、版本、描述）
+# 2. 选择技术版本（JDK、构建工具、Spring Boot版本）
+# 3. 配置项目结构（单模块/多模块）
+# 4. 选择技术栈（数据库、ORM、缓存、消息队列等）
+# 5. 设置生成选项（示例代码、测试、Docker等）
+# 6. 确认配置并生成上下文工程
 ```
 
 ## 📋 主要功能
 
-### 1. 🆕 创建项目模板
-- **默认模板模式** - 使用预配置的模板快速创建
-- **自定义配置模式** - 通过交互式界面自定义项目配置
-- 支持单模块和多模块项目架构
-- 自动配置技术栈依赖和代码结构
+### 1. 上下文工程生成
 
-### 2. 📁 配置文件管理
-- **保存配置** - 将项目配置保存为可重用的模板
-- **导入/导出** - 支持配置文件的导入导出和团队共享
-- **历史记录** - 自动记录每次项目创建的配置历史
-- **配置迁移** - 支持从旧版本JSON格式迁移到新版本Markdown格式
+- **系统提示词**: 生成AI项目生成的规范和步骤说明
+- **用户提示词**: 根据用户配置生成具体的项目需求描述
+- **Gemini命令**: 生成支持Gemini CLI的斜杠命令文件
+- **项目结构**: 生成详细的项目目录结构说明
+- **配置保存**: 自动保存用户配置，支持历史查看
 
-### 3. 🔧 配置管理系统V2
-- **分层架构** - 系统配置、模板配置、历史配置三层管理
-- **Markdown格式** - 模板和历史配置使用Markdown格式，提供更好的可读性
-- **CLI工具** - 完整的命令行工具支持配置管理操作
-- **自动备份** - 配置变更时自动创建备份
+### 2. 技术栈支持
 
-### 4. 📚 模板和文档
-- **丰富模板** - 内置多种项目模板和技术栈组合
-- **自动文档** - 自动生成项目文档和API文档
-- **Docker集成** - 自动生成Docker配置文件
-- **测试支持** - 生成完整的测试框架和示例代码
+#### JDK版本
+- Java 8
+- Java 11
+- Java 17 (推荐)
+- Java 21
 
-### 5. 📝 项目变更日志管理
-- **规范化日志** - 统一的变更日志格式和命名规范
-- **详细记录** - 包含变更原因、内容、影响和解决方案的完整记录
-- **时间追溯** - 按时间顺序记录所有项目变更历史
-- **中文文档** - 使用中文编写，便于理解和维护
+#### 构建工具
+- Maven
+- Gradle
 
-### 基本使用
+#### Spring Boot版本
+- 3.2.0 (最新)
+- 3.1.6
+- 3.0.13
+- 2.7.18
 
-#### 1. 交互式创建项目
+#### 数据库支持
+- MySQL
+- PostgreSQL
+- H2 (内存数据库)
+- Oracle
+- SQL Server
+
+#### ORM框架
+- MyBatis
+- JPA/Hibernate
+- MyBatis-Plus
+
+#### 缓存组件
+- Redis
+- Caffeine
+- Ehcache
+
+#### 消息队列
+- RabbitMQ
+- Apache Kafka
+- RocketMQ
+
+#### 其他组件
+- Swagger/OpenAPI 3.0 (API文档)
+- Spring Security (安全框架)
+- Spring Boot Actuator (监控)
+
+### 3. 生成选项
+
+- **示例代码**: 生成完整的业务逻辑示例
+- **测试代码**: 生成单元测试和集成测试
+- **Docker配置**: 生成容器化部署配置
+- **README文档**: 生成详细的项目说明文档
+
+## 🔧 使用生成的上下文工程
+
+生成的上下文工程包含多种使用方式：
+
+### 方法一：使用Gemini CLI
 
 ```bash
-# 使用交互式界面创建项目
-python main.py create --interactive
+# 安装Gemini CLI工具
+npm install -g @google/generative-ai-cli
+
+# 使用生成的Gemini命令文件
+gemini run output/[项目名称_时间戳]/project_generator.gemini
 ```
 
-#### 2. 命令行创建项目
+### 方法二：手动使用提示词
 
-```bash
-# 直接通过命令行参数创建项目
-python main.py create \
-  --name my-spring-project \
-  --package com.example.myproject \
-  --java-version 17 \
-  --spring-boot-version 3.2.0 \
-  --multi-module
+1. 复制 `system_prompt.md` 的内容作为系统提示词
+2. 复制 `user_prompt.md` 的内容作为用户输入
+3. 在支持的AI工具（ChatGPT、Claude等）中执行生成
 
-# 使用默认配置创建项目
-python main.py create --name my-project --package com.example.myproject
+### 方法三：API调用
 
-# 指定技术栈
-python main.py create --name my-project --package com.example.myproject --database mysql --orm mybatis --cache redis
+```python
+# 使用配置文件通过编程方式调用AI API
+import json
 
-# 创建多模块项目
-python main.py create --name my-project --package com.example.myproject --multi-module
+with open('output/[项目名称_时间戳]/config.json', 'r') as f:
+    config = json.load(f)
+    # 使用config调用AI API生成项目
 ```
 
-#### 3. 配置文件管理
+## 📚 详细文档链接
+
+- [项目模板说明](scripts/templates/java_project_template.md) - Java项目模板详细说明
+- [配置收集器文档](scripts/core/config_collector.py) - 配置收集逻辑说明
+- [上下文生成器文档](scripts/core/context_generator.py) - 上下文生成逻辑说明
+- [输出目录结构](output/) - 生成的上下文工程示例
+
+## 🛠️ 命令行选项
 
 ```bash
-# 列出所有保存的配置
-python main.py list-configs
+# 基本使用
+python main.py
 
-# 查看特定配置详情
-python main.py show-config my-config
-
-# 从配置文件生成项目
-python main.py generate my-config
-
-# 导出配置文件
-python main.py export-config my-config ./exported-config.json
-
-# 导入配置文件
-python main.py import-config ./config.json --config-name imported-config
-
-# 删除配置文件
-python main.py delete-config my-config
-
-# 配置管理CLI工具
-python scripts/configs_main/config_cli.py template list
-python scripts/configs_main/config_cli.py history cleanup --days 30
-```
-
-## 📖 详细文档
-
-本项目提供了完整的文档体系，详细说明了各项功能的使用方法：
-
-- **[📋 详细功能文档](docs/README.md)** - 完整的功能说明和操作演示
-- **[🚀 快速开始指南](docs/QUICK_START.md)** - 新手入门和快速上手
-- **[📚 API参考文档](docs/API_REFERENCE.md)** - 核心类和方法的详细说明
-- **[🔧 故障排除指南](docs/TROUBLESHOOTING.md)** - 常见问题和解决方案
-- **[📑 文档索引](docs/INDEX.md)** - 文档导航和搜索指南
-- **[⚙️ 配置管理系统](scripts/configs_main/README.md)** - 配置管理系统V2详细说明
-- **[🔨 脚本工具](scripts/README.md)** - 测试和调试脚本说明
-- **[📝 项目变更日志](logs/)** - 详细的项目变更历史记录和技术文档
-
-### 命令行选项
-
-```bash
-# 查看所有可用命令
+# 显示帮助信息
 python main.py --help
 
-# 查看创建命令的详细选项
-python main.py create --help
-
-# 查看配置管理CLI帮助
-python scripts/configs_main/config_cli.py --help
+# 查看版本信息
+python main.py --version
 ```
 
-## 🛠️ 支持的技术栈
+## 📁 生成的上下文工程结构
 
-### 数据库
-- **MySQL** - 最流行的开源关系型数据库
-- **PostgreSQL** - 功能强大的开源对象关系型数据库
-- **H2** - 内存数据库，适用于开发和测试
-
-### ORM 框架
-- **MyBatis** - 优秀的持久层框架
-- **MyBatis-Plus** - MyBatis 的增强工具
-- **JPA/Hibernate** - Java 持久化 API
-
-### 缓存
-- **Redis** - 高性能的内存数据结构存储
-- **Caffeine** - 高性能的本地缓存库
-
-### 消息队列
-- **RabbitMQ** - 可靠的消息代理
-- **Apache Kafka** - 分布式流处理平台
-- **RocketMQ** - 阿里巴巴开源的消息中间件
-
-### NoSQL 数据库
-- **MongoDB** - 面向文档的数据库
-- **Elasticsearch** - 分布式搜索和分析引擎
-
-### 文档工具
-- **Swagger/OpenAPI 3** - API 文档生成
-- **Spring REST Docs** - 测试驱动的文档
-
-### 安全框架
-- **Spring Security** - 强大的安全框架
-- **JWT** - JSON Web Token 认证
-
-### 监控工具
-- **Spring Boot Actuator** - 生产就绪功能
-- **Micrometer** - 应用监控门面
-
-## 📋 生成的项目结构
-
-### 单模块项目
-
+### 输出目录结构
 ```
-my-spring-project/
-├── src/
-│   ├── main/
-│   │   ├── java/com/example/myproject/
-│   │   │   ├── MyProjectApplication.java    # 启动类
-│   │   │   ├── controller/                  # 控制器层
-│   │   │   │   └── UserController.java
-│   │   │   ├── service/                     # 服务层
-│   │   │   │   ├── UserService.java
-│   │   │   │   └── impl/
-│   │   │   │       └── UserServiceImpl.java
-│   │   │   ├── repository/                  # 数据访问层
-│   │   │   │   └── UserRepository.java
-│   │   │   ├── entity/                      # 实体类
-│   │   │   │   └── User.java
-│   │   │   ├── dto/                         # 数据传输对象
-│   │   │   ├── config/                      # 配置类
-│   │   │   ├── exception/                   # 异常处理
-│   │   │   └── common/                      # 通用类
-│   │   └── resources/
-│   │       ├── application.yml              # 主配置文件
-│   │       ├── application-dev.yml          # 开发环境配置
-│   │       ├── application-test.yml         # 测试环境配置
-│   │       ├── application-prod.yml         # 生产环境配置
-│   │       └── logback-spring.xml          # 日志配置
-│   └── test/                               # 测试代码
-├── docker/
-│   ├── Dockerfile                          # Docker 镜像构建文件
-│   └── docker-compose.yml                 # Docker Compose 配置
-├── docs/                                   # 项目文档
-├── pom.xml                                 # Maven 配置文件
-├── .gitignore                             # Git 忽略文件
-└── README.md                              # 项目说明文档
+output/
+└── [项目名称_时间戳]/
+    ├── config.json              # 项目配置文件
+    ├── system_prompt.md         # 系统提示词
+    ├── user_prompt.md           # 用户提示词
+    ├── project_generator.gemini # Gemini斜杠命令文件
+    ├── project_structure.md     # 项目结构说明
+    └── README.md                # 使用说明
 ```
 
-### 多模块项目
-
-```
-my-spring-project/
-├── my-spring-project-common/               # 公共模块
-├── my-spring-project-api/                  # API 模块
-├── my-spring-project-service/              # 服务模块
-├── my-spring-project-web/                  # Web 模块
-├── docker/
-├── docs/
-├── pom.xml                                 # 父 POM
-└── README.md
-```
-
-## 🔧 配置文件格式
-
-配置文件采用 JSON 格式，包含以下主要字段：
-
+### 配置文件示例
 ```json
 {
-  "name": "my-spring-project",
-  "package": "com.example.myproject",
+  "project_name": "my-java-app",
+  "package_name": "com.example.myjavaapp",
   "version": "1.0.0",
-  "description": "A Spring Boot project",
-  "java_version": "17",
+  "description": "my-java-app - Java应用程序",
+  "jdk_version": "17",
+  "build_tool": "Maven",
   "spring_boot_version": "3.2.0",
-  "project_type": "single-module",
-  "tech_stack": {
-    "database": "mysql",
-    "orm": "mybatis",
-    "cache": ["redis"],
-    "message_queue": ["rabbitmq"],
-    "nosql": ["mongodb"],
-    "documentation": ["swagger"],
-    "security": ["spring-security"],
-    "monitoring": ["actuator"]
-  },
+  "is_multi_module": false,
   "modules": [],
-  "created_at": "2024-01-01T00:00:00",
-  "updated_at": "2024-01-01T00:00:00"
+  "database": "MySQL",
+  "orm_framework": "MyBatis",
+  "cache": "Redis",
+  "message_queue": "无消息队列",
+  "include_swagger": true,
+  "include_security": false,
+  "include_actuator": true,
+  "generate_sample_code": true,
+  "generate_tests": true,
+  "generate_docker": true,
+  "generate_readme": true,
+  "created_at": "2025-01-07T10:30:00"
 }
 ```
 
+## 📄 生成的文件说明
+
+### system_prompt.md
+包含AI生成Java项目的系统级指令和规范，确保生成高质量的代码。
+
+### user_prompt.md
+根据用户配置生成的具体项目需求描述，包含所有技术栈和功能要求。
+
+### project_generator.gemini
+Gemini CLI斜杠命令文件，可直接在Gemini命令行工具中执行。
+
+### project_structure.md
+详细的项目目录结构说明，包含标准的Maven/Gradle项目布局。
+
+### config.json
+完整的项目配置信息，可用于编程方式调用AI API。
+
+### README.md
+上下文工程的使用说明，包含多种使用方式和注意事项。
+
 ## 📈 项目历史版本
 
+### v3.0.0 (2025-01-07) - 上下文工程生成器重构
+- **重大重构**:
+  - 项目完全重构为Java项目上下文工程生成器
+  - 专注于生成AI项目初始化的上下文提示词
+  - 移除传统的项目生成功能，转为AI提示词生成
+- **新增功能**:
+  - 系统提示词自动生成，包含项目生成规范和步骤
+  - 用户提示词生成，基于用户配置的具体需求描述
+  - Gemini CLI斜杠命令文件生成，支持一键AI项目生成
+  - 项目结构说明文档自动生成
+  - 完整的上下文工程输出目录管理
+- **技术特性**:
+  - 支持JDK 8/11/17/21版本选择
+  - 支持Maven/Gradle构建工具
+  - 支持Spring Boot多版本配置
+  - 丰富的技术栈选择（数据库、ORM、缓存、消息队列）
+  - 灵活的生成选项配置
+- **架构优化**:
+  - 简化项目结构，移除无用目录（logs、docs、templates、tests）
+  - 重新设计核心模块：ConfigCollector和ContextGenerator
+  - 优化交互式界面，提升用户体验
+  - 标准化输出格式，便于AI工具集成
+
 ### v2.1.0 (2025-07-06) - 日志管理系统规范化
-- 📝 **日志管理**: 新增logs目录，统一管理项目变更日志
-- 🔄 **格式规范**: 采用"序号-变更内容-时间"的标准化命名格式
-- 📋 **详细记录**: 每个变更包含原因、内容、影响和解决方案的完整记录
-- 🕒 **时间统一**: 所有日志文件时间统一为2025年07月06日
-- 🧪 **测试完善**: 新增多个功能测试脚本，提升测试覆盖率
-- 📚 **文档更新**: 更新README.md以反映最新的项目结构
+- **新增功能**:
+  - 新增 `logs` 目录，统一管理项目变更日志
+  - 实现日志文件标准化命名格式
+  - 建立详细的变更记录体系
+- **改进优化**:
+  - 完善测试覆盖
+  - 更新项目文档
+  - 优化项目结构
 
-### v2.0.0 (2025-01-06) - 配置管理系统重构
-- ✨ **重大更新**: 配置管理系统V2
-- 🔄 **分层架构**: 系统、模板、历史三层配置管理
-- 📝 **Markdown格式**: 模板和历史配置改用Markdown格式
-- 🛠️ **CLI工具**: 完整的配置管理命令行工具
-- 🔄 **配置迁移**: 支持从JSON格式迁移到Markdown格式
-- 📚 **文档完善**: 新增详细的功能文档和API参考
-- 🔧 **脚本工具**: 新增测试、调试和验证脚本
+### v2.0.0 (2025-01-07) - 配置管理系统V2重构
+- **重大更新**:
+  - 全新的配置管理系统V2
+  - 分层架构设计
+  - Markdown格式支持
+- **新增功能**:
+  - 配置迁移工具
+  - 自动备份机制
+  - CLI工具支持
 
-### v1.5.0 (2024-12-01) - 功能增强
-- 🆕 **多模块支持**: 完善多模块项目生成
-- 🐳 **Docker集成**: 自动生成Docker配置
-- 📋 **配置管理**: 增强配置文件管理功能
-- 🎨 **UI优化**: 改进交互式界面体验
-
-### v1.0.0 (2024-01-01) - 初始版本
-- 🚀 **基础功能**: Spring Boot项目生成
-- 📦 **技术栈支持**: 主流数据库、缓存、消息队列
-- 🎯 **项目类型**: 单模块项目支持
-- 💾 **配置管理**: JSON格式配置文件
-
-## 🧪 开发和测试
-
-### 运行测试
-
-```bash
-# 运行所有测试
-python -m pytest tests/
-
-# 运行特定测试文件
-python -m pytest tests/test_generator.py
-
-# 运行测试并显示覆盖率
-python -m pytest tests/ --cov=spring_init
-
-# 运行脚本测试
-python scripts/test_click.py
-python scripts/verify_structure.py
-```
-
-### 添加新功能
-
-1. **添加新的技术栈支持**
-   - 在 `common/constants/project_constants.py` 中添加新的常量
-   - 在 `common/validators/project_validator.py` 中添加验证逻辑
-   - 在 `templates/` 目录下添加相应的模板文件
-
-2. **添加新的模板文件**
-   - 在 `templates/` 目录下创建新的 Jinja2 模板
-   - 在 `spring_init/template_manager.py` 中注册新模板
-   - 在 `spring_init/generator.py` 中添加生成逻辑
-
-3. **扩展配置选项**
-   - 在 `spring_init/config.py` 中扩展配置数据结构
-   - 在 `spring_init/interactive.py` 中添加交互式收集逻辑
-   - 在 `spring_init/cli.py` 中添加命令行选项
-
-## 🤝 贡献指南
-
-我们欢迎所有形式的贡献！
-
-### 提交 Issue
-
-- 🐛 **Bug 报告** - 详细描述问题和复现步骤
-- 💡 **功能建议** - 描述新功能的用途和实现思路
-- 📚 **文档改进** - 指出文档中的错误或不清楚的地方
-
-### 提交 Pull Request
-
-1. Fork 本仓库
-2. 创建功能分支 (`git checkout -b feature/amazing-feature`)
-3. 提交更改 (`git commit -m 'Add some amazing feature'`)
-4. 推送到分支 (`git push origin feature/amazing-feature`)
-5. 开启 Pull Request
-
-### 代码规范
-
-- 遵循 PEP 8 Python 代码规范
-- 添加适当的注释和文档字符串
-- 为新功能编写测试用例
-- 确保所有测试通过
-
-## 📄 许可证
-
-MIT License - 详见 [LICENSE](LICENSE) 文件
+### v1.0.0 (2024-10-01) - 首个正式版本
+- **核心功能**:
+  - 交互式Spring Boot项目生成
+  - 多种技术栈配置支持
+  - 配置文件管理系统
 
 ## 🤝 贡献指南
 
@@ -512,9 +353,8 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ⭐ 如果这个项目对你有帮助，请给我们一个 Star！
 
-📖 **推荐阅读顺序**：
+📖 **推荐使用流程**：
 1. 先阅读本 README 了解项目概况
-2. 查看 [快速开始指南](docs/QUICK_START.md) 快速上手
-3. 参考 [详细功能文档](docs/README.md) 了解所有功能
-4. 遇到问题时查看 [故障排除指南](docs/TROUBLESHOOTING.md)
-5. 开发时参考 [API参考文档](docs/API_REFERENCE.md)
+2. 运行 `python main.py` 开始生成上下文工程
+3. 使用生成的上下文工程在AI工具中生成Java项目
+4. 根据需要调整配置并重新生成
