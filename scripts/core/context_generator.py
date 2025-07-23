@@ -12,11 +12,20 @@
 
 import json
 import os
+import logging
 from pathlib import Path
 from datetime import datetime
 from rich.console import Console
 
+# 导入模板引擎
+try:
+    from jinja2 import Environment, FileSystemLoader, Template
+    JINJA2_AVAILABLE = True
+except ImportError:
+    JINJA2_AVAILABLE = False
+
 console = Console()
+logger = logging.getLogger(__name__)
 
 
 class ContextGenerator:
@@ -29,6 +38,18 @@ class ContextGenerator:
         # 确保目录存在
         self.output_base_dir.mkdir(parents=True, exist_ok=True)
         self.templates_dir.mkdir(parents=True, exist_ok=True)
+        
+        # 初始化模板环境
+        if JINJA2_AVAILABLE:
+            self.jinja_env = Environment(
+                loader=FileSystemLoader(str(self.templates_dir)),
+                trim_blocks=True,
+                lstrip_blocks=True
+            )
+            logger.info("Jinja2模板引擎已初始化")
+        else:
+            self.jinja_env = None
+            logger.warning("Jinja2不可用，将使用基础字符串格式化")
     
     def generate(self, config):
         """生成完整的上下文工程"""
@@ -152,6 +173,19 @@ class ContextGenerator:
     
     def _build_system_prompt(self, config):
         """构建系统提示词"""
+        if self.jinja_env:
+            try:
+                # 使用Jinja2模板
+                template = self.jinja_env.get_template('system_prompt_template.md')
+                return template.render(**config)
+            except Exception as e:
+                logger.warning(f"模板渲染失败，使用默认方式: {e}")
+                return self._build_default_system_prompt(config)
+        else:
+            return self._build_default_system_prompt(config)
+    
+    def _build_default_system_prompt(self, config):
+        """构建默认系统提示词（降级方案）"""
         return f"""# Java项目生成系统提示词
 
 你是一个专业的Java项目架构师和开发专家，擅长创建高质量的Spring Boot项目。
@@ -162,89 +196,104 @@ class ContextGenerator:
 
 **重要**: 所有项目配置必须从config.json文件中动态读取，不得使用硬编码值。
 
+## 项目配置信息
+
+### 基本信息
+- 项目名称: {config['project_name']}
+- 基础包名: {config['package_name']}
+- 项目版本: {config['version']}
+- 项目描述: {config['description']}
+
+### 技术版本
+- JDK版本: Java {config['jdk_version']}
+- 构建工具: {config['build_tool']}
+- Spring Boot版本: {config['spring_boot_version']}
+
+### 项目架构
+- 项目类型: {'多模块项目' if config['is_multi_module'] else '单模块项目'}
+{self._format_modules(config)}
+
+### 技术栈
+- 数据库: {config['database']}
+- ORM框架: {config['orm_framework']}
+- 缓存: {config['cache']}
+- 消息队列: {config['message_queue']}
+
+### 附加组件
+- API文档: {'启用 Swagger' if config['include_swagger'] else '未启用'}
+- 安全框架: {'启用 Spring Security' if config['include_security'] else '未启用'}
+- 监控组件: {'启用 Spring Boot Actuator' if config['include_actuator'] else '未启用'}
+
+### 生成选项
+- 示例代码: {'生成' if config['generate_sample_code'] else '不生成'}
+- 测试代码: {'生成' if config['generate_tests'] else '不生成'}
+- Docker配置: {'生成' if config['generate_docker'] else '不生成'}
+- README文档: {'生成' if config['generate_readme'] else '不生成'}
+
 ## 项目生成规范
 
 ### 1. 项目结构规范
-- 使用标准的Maven/Gradle项目结构（根据config.json中的build_tool）
-- 遵循Java包命名规范（使用config.json中的package_name）
+- 使用标准的{config['build_tool']}项目结构
+- 遵循Java包命名规范（使用 {config['package_name']}）
 - 实现清晰的分层架构（Controller、Service、Repository/DAO、Entity）
-- 配置合理的目录结构和文件组织
+{'- 采用多模块架构设计，各模块职责明确' if config['is_multi_module'] else ''}
 
 ### 2. 代码质量要求
 - 遵循Java编码规范和最佳实践
 - 使用适当的设计模式
 - 添加必要的注释和文档
 - 实现异常处理和日志记录
-- 根据config.json中的generate_tests配置编写测试代码
+{'- 编写完整的测试代码' if config['generate_tests'] else ''}
 
 ### 3. 技术栈集成
-- 正确配置Spring Boot和相关依赖（版本来自config.json）
-- 根据config.json中的database和orm_framework配置数据库连接
-- 根据config.json中的cache和message_queue配置集成中间件
-- 根据config.json中的include_*配置API文档和监控组件
-- 根据config.json中的include_security配置安全认证
+- 正确配置Spring Boot {config['spring_boot_version']}和相关依赖
+{self._format_tech_stack_integration(config)}
 
 ### 4. 配置文件管理
 - 使用application.yml/properties进行配置
 - 支持多环境配置（dev、test、prod）
 - 实现外部化配置和敏感信息保护
-- 根据config.json中的generate_docker配置提供Docker容器化
-
-### 5. 文档和部署
-- 根据config.json中的generate_readme配置生成README文档
-- 根据config.json中的include_swagger配置提供API接口文档
-- 包含部署和运行说明
-- 添加项目依赖和环境要求说明
-
-## 生成步骤
-
-1. **读取配置文件**
-   - 解析config.json中的所有配置项
-   - 验证配置的完整性和有效性
-
-2. **创建项目基础结构**
-   - 根据build_tool生成Maven/Gradle构建文件
-   - 根据package_name创建标准的Java包结构
-   - 根据project_name配置Spring Boot主类
-
-3. **配置依赖管理**
-   - 添加Spring Boot Starter依赖（版本来自spring_boot_version）
-   - 根据技术栈配置集成数据库和ORM框架
-   - 根据配置添加缓存和消息队列依赖
-   - 根据生成选项配置测试和文档依赖
-
-4. **实现核心功能**
-   - 根据generate_sample_code配置创建示例代码
-   - 实现数据访问层、业务逻辑层、控制器层
-   - 根据配置集成相应的技术组件
-
-5. **配置集成组件**
-   - 根据config.json动态配置数据库连接
-   - 根据配置设置缓存组件
-   - 根据配置集成消息队列
-   - 根据include_security配置安全组件
-
-6. **生成测试代码**
-   - 根据generate_tests配置生成测试代码
-   - 包含单元测试、集成测试、API测试
-
-7. **完善文档和部署**
-   - 根据generate_readme配置生成README文档
-   - 根据include_swagger配置生成API文档
-   - 根据generate_docker配置生成Docker配置
-   - 提供部署和运行说明
+{'- 提供Docker容器化配置' if config['generate_docker'] else ''}
 
 ## 注意事项
 
 - 确保所有生成的代码都能正常编译和运行
 - 遵循Spring Boot的约定优于配置原则
-- 严格按照config.json中的版本配置使用相应的技术栈版本
+- 严格按照配置中的JDK {config['jdk_version']}版本要求
 - 考虑性能、安全性和可维护性
 - 提供清晰的错误处理和日志记录
 - 所有配置项都必须从config.json文件中读取，不得硬编码
 
-请严格按照以上规范和config.json中的具体配置要求来生成项目。
+请严格按照以上规范和配置要求来生成项目。
 """
+    
+    def _format_modules(self, config):
+        """格式化模块信息"""
+        if not config['is_multi_module'] or not config.get('modules'):
+            return ""
+        
+        modules_info = "\n- 模块配置:"
+        for module in config['modules']:
+            modules_info += f"\n  - {module['name']}: {module['description']}"
+        return modules_info
+    
+    def _format_tech_stack_integration(self, config):
+        """格式化技术栈集成信息"""
+        integrations = []
+        
+        if config['database'] != "无数据库":
+            integrations.append(f"- 配置{config['database']}数据库连接")
+        
+        if config['orm_framework'] != "无ORM":
+            integrations.append(f"- 集成{config['orm_framework']}框架")
+        
+        if config['cache'] != "无缓存":
+            integrations.append(f"- 配置{config['cache']}缓存组件")
+        
+        if config['message_queue'] != "无消息队列":
+            integrations.append(f"- 集成{config['message_queue']}消息队列")
+        
+        return "\n".join(integrations) if integrations else ""
     
     def _build_user_prompt(self, config):
         """构建用户提示词"""

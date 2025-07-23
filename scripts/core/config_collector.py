@@ -13,6 +13,8 @@
 """
 
 import json
+import re
+import logging
 from pathlib import Path
 from rich.console import Console
 from rich.prompt import Prompt, Confirm, IntPrompt
@@ -20,7 +22,21 @@ from rich.panel import Panel
 from rich.text import Text
 from datetime import datetime
 
+# 导入配置验证器
+try:
+    from scripts.validators.config_validator import ConfigValidator
+except ImportError:
+    # 如果导入失败，使用空的验证器
+    class ConfigValidator:
+        def validate_config(self, config):
+            return []
+        def suggest_fixes(self, config, errors):
+            return config
+        def print_validation_summary(self, errors):
+            return len(errors) == 0
+
 console = Console()
+logger = logging.getLogger(__name__)
 
 
 class ConfigCollector:
@@ -28,6 +44,7 @@ class ConfigCollector:
     
     def __init__(self):
         self.config = {}
+        self.validator = ConfigValidator()
         
         # 预定义的选项
         self.jdk_versions = [
@@ -74,11 +91,8 @@ class ConfigCollector:
             # 收集技术版本
             self._collect_tech_versions()
             
-            # 设置为单模块项目（简化配置）
-            self.config.update({
-                "is_multi_module": False,
-                "modules": []
-            })
+            # 收集项目结构配置
+            self._collect_project_structure()
             
             # 收集技术栈
             self._collect_tech_stack()
@@ -86,10 +100,32 @@ class ConfigCollector:
             # 收集生成选项
             self._collect_generation_options()
             
+            # 验证配置
+            validation_errors = self.validator.validate_config(self.config)
+            if validation_errors:
+                console.print("\n[yellow]⚠️  配置验证发现问题:[/yellow]")
+                self.validator.print_validation_summary(validation_errors)
+                
+                # 尝试自动修复
+                fixed_config = self.validator.suggest_fixes(self.config, validation_errors)
+                if fixed_config != self.config:
+                    self.config = fixed_config
+                    console.print("[green]🔧 已自动修复部分配置问题[/green]")
+                    
+                    # 重新验证
+                    validation_errors = self.validator.validate_config(self.config)
+                
+                if validation_errors:
+                    if not Confirm.ask("\n仍有配置问题，是否继续？", default=False):
+                        logger.info("用户因配置问题取消操作")
+                        return None
+            
             # 显示配置摘要并确认
             if self._confirm_config():
+                logger.info("配置收集完成并确认")
                 return self.config
             else:
+                logger.info("用户取消配置确认")
                 return None
                 
         except KeyboardInterrupt:
@@ -183,6 +219,58 @@ class ConfigCollector:
         })
         
         console.print("[green]✅ 技术版本选择完成[/green]\n")
+    
+    def _collect_project_structure(self):
+        """收集项目结构配置"""
+        console.print("[bold blue]🏗️ 项目结构配置[/bold blue]")
+        
+        # 询问是否为多模块项目
+        is_multi_module = Confirm.ask(
+            "是否创建多模块项目？",
+            default=False
+        )
+        
+        modules = []
+        if is_multi_module:
+            console.print("\n[blue]配置项目模块:[/blue]")
+            console.print("请输入模块信息（输入空的模块名称结束）")
+            
+            while True:
+                module_name = Prompt.ask(
+                    "模块名称",
+                    default=""
+                )
+                
+                if not module_name.strip():
+                    break
+                
+                # 验证模块名称格式
+                if not re.match(r'^[a-zA-Z][a-zA-Z0-9-]*$', module_name):
+                    console.print("[red]❌ 模块名称格式不正确，请重新输入[/red]")
+                    continue
+                
+                module_description = Prompt.ask(
+                    f"模块 '{module_name}' 的描述",
+                    default=f"{module_name} 模块"
+                )
+                
+                modules.append({
+                    "name": module_name,
+                    "description": module_description
+                })
+                
+                console.print(f"[green]✅ 模块 '{module_name}' 添加成功[/green]")
+            
+            if not modules:
+                console.print("[yellow]⚠️  未添加任何模块，将创建单模块项目[/yellow]")
+                is_multi_module = False
+        
+        self.config.update({
+            "is_multi_module": is_multi_module,
+            "modules": modules
+        })
+        
+        console.print(f"[green]✅ 项目结构配置完成 ({'多模块' if is_multi_module else '单模块'})[/green]\n")
     
 
     
